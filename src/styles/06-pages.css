@@ -1,0 +1,336 @@
+/* ── Project pages ──────────────────────────────────────────────────── */
+/* The page in three bands: the picture and the story; the pictures (white); then onward. The
+   first starts closer, since the boarding pass already sits between it and the head. */
+.proj__body { padding-top: clamp(40px, 5vw, 56px); }
+.proj__body > .stage + .proj__main { margin-top: var(--sp-7); }
+/* The story: each section's title in a left column, its content on the right. */
+.proj__main { display: grid; gap: var(--sp-7); }
+.proj__sec { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 16px clamp(32px, 5vw, 80px); align-items: start; }
+.proj__sec > .proj__h { position: sticky; top: calc(var(--head) + 24px); margin-bottom: 0; }
+.proj__sec-body { min-width: 0; }
+.proj__sec--note .proj__sec-body { grid-column: 2; }
+.proj__sec--note .proj__note { margin-top: 0; }
+.proj__h { margin-bottom: var(--sp-4); font-size: var(--s-2); font-weight: 800; letter-spacing: -.015em; }
+@media (max-width: 860px) {
+  .proj__sec { grid-template-columns: 1fr; }
+  .proj__sec > .proj__h { position: static; }
+  .proj__sec--note .proj__sec-body { grid-column: 1; }
+}
+.proj__note {
+  margin-top: 40px;
+  padding: 18px 22px;
+  border-left: 3px solid var(--pink);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  background: var(--card);
+  color: var(--fg-2);
+}
+.proj__end .stops { margin-top: 0; }
+.proj__end .related + .stops { margin-top: var(--sp-7); }
+
+
+/* How it plays (three steps) and how it's built (notes). */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.step, .note { padding: 22px 22px 24px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.step { display: grid; gap: 10px; align-content: start; }
+.step__no { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--pink); color: var(--on-pink); font-weight: 800; }
+.step__title, .note__title { font-size: 1.1875rem; font-weight: 700; }
+.step p, .note p { color: var(--fg-2); font-size: 1.0625rem; }
+.steps__then { margin-top: 16px; color: var(--muted); }
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.note__title { margin-bottom: 8px; }
+@media (max-width: 760px) {
+  .steps, .notes { grid-template-columns: 1fr; }
+}
+
+/* Try it: the live demo loads only when asked for. */
+.demo { overflow: hidden; background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius); }
+.demo__poster { display: grid; gap: 18px; padding: clamp(24px, 4vw, 36px); }
+.demo__text { max-width: 58ch; color: var(--fg-2); }
+.demo__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.demo iframe { width: 100%; height: min(78vh, 760px); border: 0; background: #fff; }
+
+/* Rows of pictures that share one height (see project.js): each picture's width follows its
+   proportions (--r) plus its frame (--x), so a row runs edge to edge and its pictures line up top
+   and bottom. --h is the height a row aims for; no picture grows past --hmax tall. */
+.flow {
+  --h: clamp(200px, 21vw, 290px);
+  --hmax: 560px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--sp-6) clamp(20px, 3vw, 32px);
+}
+.flow > * { flex: var(--r, 1) 1 calc(var(--r, 1) * var(--h) + var(--x, 0px)); max-width: calc(var(--r, 1) * var(--hmax) + var(--x, 0px)); min-width: 0; }
+.flow > .flow__full { flex-basis: 100%; max-width: none; }
+.flow + .sub-title { margin-top: var(--sp-7); }
+@media (max-width: 760px) {
+  .flow { --h: 300px; }
+}
+/* the frames: a phone's bezel, the mat behind a logo or a mockup */
+.phone-fig { --x: 12px; }
+.asset-fig { --pad: clamp(16px, 2.5vw, 28px); --x: calc(2 * var(--pad)); }
+.asset-fig .fig__a { padding: var(--pad); background: var(--deep); border-radius: var(--radius); }
+.asset-fig .fig__a img { border-radius: 6px; }
+.photo-fig .fig__a { border-radius: var(--radius); overflow: hidden; }
+
+/* The version this project grew out of, or grew into. */
+.related {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.related__media { min-height: 220px; background: var(--deep); }
+.related__media > img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.related__body { display: grid; gap: 10px; align-content: center; padding: clamp(24px, 4vw, 40px); }
+.related__label { color: var(--pink-text); font-weight: 700; }
+.related__title { font-size: var(--s-2); font-weight: 800; letter-spacing: -.015em; line-height: 1.1; }
+.related__text { max-width: 52ch; color: var(--fg-2); }
+@media (max-width: 760px) {
+  .related { grid-template-columns: 1fr; }
+  .related__media { aspect-ratio: 16 / 9; min-height: 0; }
+}
+
+/* Graphic design: every printed piece, front and back, in rows that line up (see .flow). */
+.pieces { --pad: clamp(14px, 2.5vw, 28px); --pg: clamp(10px, 1.5vw, 18px); --h: clamp(200px, 20vw, 270px); --hmax: 420px; gap: clamp(28px, 3.5vw, 48px) clamp(20px, 3vw, 40px); }
+.piece { --x: calc(2 * var(--pad) + (var(--n, 1) - 1) * var(--pg)); display: grid; gap: 14px; align-content: start; }
+.piece__imgs { display: grid; gap: var(--pg); align-items: start; padding: var(--pad); background: var(--deep); border-radius: var(--radius); }
+.piece--two .piece__imgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.piece--booklet .piece__imgs { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+.piece--booklet.flow__full .piece__imgs { grid-template-columns: repeat(auto-fit, minmax(150px, 250px)); justify-content: center; }
+.piece__a { display: block; cursor: zoom-in; box-shadow: 0 14px 28px -18px rgba(24, 24, 27, .55); transition: transform var(--t-fast) var(--ease); }
+.piece__a:hover { transform: translateY(-3px); }
+.piece__a img { width: 100%; }
+.piece figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
+.piece__name { font-size: 1.1875rem; font-weight: 700; }
+.piece__note { color: var(--muted); font-size: var(--s-sm); }
+@media (max-width: 760px) {
+  .piece--booklet.flow__full .piece__imgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── About me ───────────────────────────────────────────────────────── */
+.orgs { border-top: 1px solid var(--line); }
+.org { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 20px 48px; padding-block: 36px; border-bottom: 1px solid var(--line); }
+.org__name { font-size: var(--s-1); font-weight: 800; letter-spacing: -.01em; }
+.org__since { margin-top: 6px; color: var(--muted); }
+.org__roles { display: grid; gap: 30px; }
+.xp__title { font-size: 1.25rem; font-weight: 700; line-height: 1.3; }
+.xp__when { margin-top: 4px; color: var(--pink-text); font-size: var(--s-sm); font-weight: 700; }
+.xp__text { margin-top: 8px; max-width: 64ch; color: var(--fg-2); }
+.xp__notes, .ticks { display: grid; gap: 8px; }
+.xp__notes { margin-top: 12px; }
+.xp__notes li, .ticks li { position: relative; padding-left: 22px; }
+.xp__notes li { font-size: 1.0625rem; }
+.ticks li { color: var(--fg-2); }
+.xp__notes li::before, .ticks li::before {
+  content: '';
+  position: absolute;
+  left: 2px; top: .62em;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+}
+.xp .more { margin-top: 12px; }
+@media (max-width: 860px) {
+  .org { grid-template-columns: 1fr; }
+}
+
+.records { display: grid; gap: clamp(40px, 5vw, 64px); margin-top: clamp(48px, 6vw, 72px); }
+.records .sub-title { margin-top: 0; }
+.records__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 48px; }
+.records__cols--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.records__h { margin-bottom: 12px; font-size: 1.1875rem; font-weight: 700; }
+.fairs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.fair { padding: 22px 22px 8px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.fair .facts { border-top: 0; }
+.fair .facts__row { grid-template-columns: 1fr; gap: 2px; }
+.fair .facts__row:last-child { border-bottom: 0; }
+@media (max-width: 960px) {
+  .fairs { grid-template-columns: 1fr; }
+  .records__cols, .records__cols--3 { grid-template-columns: 1fr; }
+}
+
+.skills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+.skills__list { display: flex; flex-wrap: wrap; gap: 8px; }
+.skills__list li { padding: 8px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; color: var(--fg-2); font-size: var(--s-sm); }
+@media (max-width: 960px) {
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .skills { grid-template-columns: 1fr; }
+}
+
+/* the two headings share a baseline, so the columns start on one line */
+.resume { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; align-items: baseline; }
+.resume .sub-title { margin-top: 0; }
+.resume__docs { display: flex; flex-wrap: wrap; gap: 12px; }
+.connect { border-top: 1px solid var(--line); }
+.connect__a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 16px 2px; border-bottom: 1px solid var(--line); font-weight: 700; }
+.connect__h { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; color: var(--fg-2); font-weight: 500; text-align: right; overflow-wrap: break-word; }
+.connect__a:hover .connect__h { color: var(--pink-text); }
+@media (max-width: 860px) {
+  .resume { grid-template-columns: 1fr; }
+}
+
+/* Education: the GPA as two big numbers, then the courses. */
+.school { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.school__gpa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-top: var(--sp-3); }
+.school__card { display: grid; gap: 4px; align-content: start; padding: var(--sp-4); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.school__name { font-size: var(--s-2); font-weight: 800; letter-spacing: -.015em; }
+.school__prog { font-weight: 600; }
+.school__when { color: var(--muted); }
+.school__gpa li { display: grid; gap: 2px; padding-top: var(--sp-3); border-top: 1px solid var(--line); }
+.school__value { color: var(--pink-text); font-size: var(--s-3); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.school__label { color: var(--fg-2); font-weight: 600; }
+.school__courses { display: grid; gap: 28px; }
+@media (max-width: 960px) {
+  .school { grid-template-columns: 1fr; }
+}
+
+/* ── Just for Fun and the photo collections ─────────────────────────── */
+.photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 28px); }
+.photo { display: grid; gap: 10px; align-content: start; }
+.photo__a { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-s); background: var(--deep); cursor: zoom-in; }
+.photo__a img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out); }
+.photo__a:hover img { transform: scale(1.03); }
+/* A collection's own page: a masonry of columns, so every photograph keeps its own shape. */
+.photos--set { display: block; columns: 3; column-gap: clamp(16px, 2.2vw, 28px); }
+.photos--set .photo { break-inside: avoid; margin-bottom: clamp(18px, 2.4vw, 30px); }
+.photos--set .photo__a { aspect-ratio: auto; }
+.photo figcaption { display: grid; gap: 2px; }
+.photo__place { font-weight: 700; }
+.photo__subject { color: var(--muted); font-size: var(--s-sm); }
+.follow__h { margin: var(--sp-6) 0 var(--sp-3); font-size: var(--s-1); font-weight: 800; }
+.follow { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 760px) {
+  .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 960px) {
+  .photos--set { columns: 2; }
+}
+@media (max-width: 560px) {
+  .photos--set { columns: 1; }
+}
+
+.sets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 20px; }
+.set { display: grid; gap: 2px; }
+.set__media { display: block; aspect-ratio: 4 / 5; margin-bottom: 10px; overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-s); }
+.set__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease-out); }
+.set:hover .set__media img { transform: scale(1.04); }
+.set__word {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 12px;
+  background: var(--deep);
+  color: var(--fg-2);
+  font-size: var(--s-2);
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: -.01em;
+  text-align: center;
+}
+.set__name { font-size: 1.1875rem; font-weight: 700; }
+.set__count { color: var(--muted); font-size: var(--s-sm); }
+.set:hover .set__name { color: var(--pink-text); }
+.set:hover .set__media { border-color: var(--line-2); }
+@media (max-width: 960px) {
+  .sets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.soon { display: grid; gap: 20px; padding: clamp(28px, 5vw, 48px); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.soon__text { max-width: 46ch; color: var(--fg-2); font-size: var(--s-1); line-height: 1.45; }
+
+/* ── Contact ────────────────────────────────────────────────────────── */
+.contact { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.contact__h { font-size: var(--s-2); font-weight: 800; letter-spacing: -.015em; line-height: 1.15; }
+.contact__side .contact__h:not(:first-child) { margin-top: var(--sp-6); margin-bottom: var(--sp-2); }
+.contact__mail { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: var(--sp-2); padding: 14px 24px; border-radius: 999px; background: var(--pink); color: var(--on-pink); font-size: 1.1875rem; font-weight: 700; overflow-wrap: anywhere; }
+.contact__mail:hover { background: var(--pink-2); }
+.form { position: relative; display: grid; gap: 20px; padding: clamp(24px, 4vw, 40px); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.field { display: grid; gap: 8px; }
+.field label { font-size: 1.0625rem; font-weight: 700; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--field);
+  border-radius: var(--radius-s);
+  color: var(--fg);
+  font-size: 1.0625rem;
+}
+.field textarea { resize: vertical; min-height: 180px; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; border-color: transparent; }
+.field [aria-invalid] { border-color: #c4320a; }
+.form__send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.form__status { color: var(--fg-2); }
+.form__status.is-error { color: #b42318; }
+@media (max-width: 960px) {
+  .contact { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .form__row { grid-template-columns: 1fr; }
+}
+
+/* ── Live-demo pages and the 404 ────────────────────────────────────── */
+.demopage__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 18px; }
+.demopage__title { font-size: var(--s-1); font-weight: 800; }
+.demopage__frame { display: block; width: 100%; height: calc(100svh - var(--head) - 88px); min-height: 480px; border: 0; background: #fff; }
+.demopage .soon { margin-bottom: 64px; }
+.nf { padding-block: clamp(80px, 14vw, 180px); }
+.nf .follow { margin-top: 32px; }
+
+/* Science Projects: the question behind the research. */
+.interest { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.interest__title { color: var(--fg); font-size: var(--s-2); font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
+.interest__areas { margin-top: 20px; }
+.interest__why { padding-top: 8px; }
+@media (max-width: 860px) {
+  .interest { grid-template-columns: 1fr; }
+}
+
+/* Topics on cards and project pages. */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.tags li { padding: 5px 12px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--fg-2); font-size: var(--s-sm); font-weight: 600; }
+
+/* Contact: four quick facts under the title. */
+.quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; max-width: 1000px; }
+.quick li { display: grid; gap: 2px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-s); }
+.quick__k { color: var(--muted); font-size: var(--s-sm); font-weight: 600; }
+.quick__v { color: var(--fg); font-weight: 700; line-height: 1.35; }
+@media (max-width: 960px) {
+  .quick { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .quick { grid-template-columns: 1fr; }
+}
+
+/* Just for Fun: off the clock. */
+.offclock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.offclock__more { justify-self: start; margin-top: 6px; }
+.offclock__item { display: grid; gap: 8px; align-content: start; padding: clamp(22px, 3vw, 32px); background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.offclock__since { color: var(--pink-text); font-weight: 700; }
+.offclock__title { font-size: var(--s-2); font-weight: 800; }
+.offclock__text { color: var(--fg-2); }
+.offclock .ticks { margin-top: 6px; }
+@media (max-width: 860px) {
+  .offclock { grid-template-columns: 1fr; }
+}
+
+/* About: one big number. */
+.bignum { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--sp-2); margin-bottom: var(--sp-4); }
+.bignum__value { color: var(--pink-text); font-size: var(--s-3); font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+.bignum__label { color: var(--fg-2); font-size: 1.125rem; max-width: 40ch; }
+
+/* Languages and tools, as plain pills. */
+.kit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4) var(--sp-6); margin-bottom: var(--sp-6); }
+.tools { display: flex; flex-wrap: wrap; gap: 10px; }
+.tools li { padding: 9px 16px; background: var(--card); border: 1px solid var(--line-2); border-radius: 999px; color: var(--fg); font-size: 1.0625rem; font-weight: 700; }
+.skills--home { padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+@media (max-width: 760px) {
+  .kit { grid-template-columns: 1fr; }
+}

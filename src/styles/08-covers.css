@@ -1,0 +1,63 @@
+/* ════════════════════════════════════════════════════════════════════
+   Covers: a made picture for every project and every kind of work.
+   Each fills its frame (a card's picture, a ticket's poster) and is
+   drawn in container units, so one design fits all sizes.
+   ════════════════════════════════════════════════════════════════════ */
+.card__media, .related__media, .ticket__art--photo { position: relative; }
+.cover { position: absolute; inset: 0; display: block; overflow: hidden; container-type: size; }
+.cover { background: var(--c, #e8e8ee); }
+.cover img { display: block; }
+
+/* the scene behind: sky, hills and the train on its deck (the same drawings as the tickets) */
+.cover__scene { position: absolute; inset: 0; display: block; }
+.cover__scene svg { display: block; width: 100%; height: 100%; }
+
+/* software: a screen in a little browser window, tilted, with a phone beside it when there is one */
+.cover__win {
+  position: absolute; left: 50%; top: 40%;
+  width: min(66cqw, 98cqh); aspect-ratio: 16 / 10.4;
+  translate: -50% -50%; rotate: -1.8deg;
+  display: grid; grid-template-rows: 9cqh minmax(0, 1fr);
+  overflow: hidden; border-radius: 2.4cqh; background: #fff;
+  box-shadow: 0 2.4cqh 5cqh -1.6cqh rgba(28, 24, 40, .45), 0 0 0 1px rgba(28, 24, 40, .1);
+}
+.cover__bar { display: flex; align-items: center; gap: 1.4cqh; padding: 0 2.6cqh; background: #f4f2f7; }
+.cover__bar i { width: 2.2cqh; height: 2.2cqh; border-radius: 50%; background: #d9d4e2; }
+.cover__bar i:first-child { background: #ff9fc2; }
+.cover__win > img { width: 100%; height: 100%; object-fit: cover; object-position: left top; min-height: 0; }
+.cover--sw.has-phone .cover__win { left: 38%; width: min(58cqw, 92cqh); }
+.cover__phone {
+  position: absolute; right: 9cqw; top: 12cqh; height: 54cqh; aspect-ratio: 9 / 19; rotate: 4deg;
+  overflow: hidden; border: .9cqh solid #1f1c28; border-radius: 4.4cqh; background: #fff;
+  box-shadow: 0 2.4cqh 5cqh -1.6cqh rgba(28, 24, 40, .5);
+}
+.cover__phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.cover__name {
+  display: grid; place-items: center; padding: 3cqh; min-height: 0;
+  background: #fff; color: #2b2833; font-weight: 800; font-stretch: 108%; letter-spacing: -.02em;
+  font-size: clamp(1rem, 9cqh, 1.9rem); line-height: 1.05; text-align: center; text-wrap: balance;
+}
+
+/* a mark with no screens: the logo on a rounded tile */
+.cover__tile {
+  position: absolute; left: 50%; top: 41%; width: min(42cqh, 40cqw); aspect-ratio: 1; translate: -50% -50%; rotate: -4deg;
+  display: grid; place-items: center; padding: 13%; border-radius: 12%; background: #fff;
+  box-shadow: 0 2.4cqh 5cqh -1.6cqh rgba(28, 24, 40, .4);
+}
+.cover__tile img { width: 100%; height: 100%; object-fit: contain; }
+
+/* printed work and documents: its pieces, fanned like cards in a hand */
+.cover__sheet {
+  position: absolute; left: 50%; top: 41%; height: 56cqh; max-width: 56cqw;
+  translate: -50% -50%; background: #fff; border-radius: .8cqh;
+  box-shadow: 0 2.2cqh 4.4cqh -1.4cqh rgba(28, 24, 40, .5), 0 0 0 1px rgba(28, 24, 40, .08);
+  overflow: hidden; display: grid;
+}
+.cover__sheet img { height: 100%; width: auto; max-width: 100%; object-fit: contain; margin: auto; }
+.cover--1 .cover__sheet--0 { rotate: -3deg; }
+.cover--2 .cover__sheet--0 { translate: calc(-50% - 17cqw) -50%; rotate: -7deg; }
+.cover--2 .cover__sheet--1 { translate: calc(-50% + 17cqw) -50%; rotate: 5deg; }
+.cover--3 .cover__sheet--0 { translate: calc(-50% - 25cqw) -46%; rotate: -9deg; }
+.cover--3 .cover__sheet--1 { translate: -50% -52%; rotate: 2deg; z-index: 2; height: 62cqh; }
+.cover--3 .cover__sheet--2 { translate: calc(-50% + 25cqw) -46%; rotate: 8deg; }
+

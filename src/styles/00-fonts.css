@@ -1,0 +1,16 @@
+/* One family: Archivo, self-hosted (SIL Open Font License — see public/fonts/LICENSES.md).
+   It is a variable font, so every weight and width comes from this single file. */
+@font-face {
+  font-family: 'Archivo';
+  src: url(/fonts/archivo.woff2) format('woff2');
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+/* A metric-matched fallback keeps the layout steady while the font loads. */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('Helvetica Neue');
+  size-adjust: 101%;
+}

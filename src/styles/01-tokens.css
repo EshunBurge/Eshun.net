@@ -1,0 +1,83 @@
+/* ────────────────────────────────────────────────────────────────────────
+   Tokens. Light greys for reading, charcoal for the frame (the menu bar, the
+   train, the closing band and the footer), and pink kept for accents.
+
+   Light (the default) — contrast on --bg #f4f4f6:
+     --fg 16:1 · --fg-2 9.5:1 · --muted 5.8:1 · --pink-text 5.5:1
+   Dark (.tone-dark) — contrast on --bg #1b1b1e:
+     --fg 16:1 · --fg-2 12:1 · --muted 6.9:1 · --pink-text 6.1:1
+   Pink fills (#ff5c9d) always carry dark text (6.1:1).
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #f4f4f6;          /* the page */
+  --bg-2: #ffffff;        /* alternate bands */
+  --card: #ffffff;        /* cards and panels */
+  --card-2: #f7f7f9;      /* hovered cards */
+  --deep: #e7e7ec;        /* picture wells */
+  --line: #e0e0e6;        /* hairlines */
+  --line-2: #c3c3cb;      /* borders that need to be seen */
+  --field: #8a8a94;       /* form-field borders (3.4:1) */
+
+  --fg: #18181b;
+  --fg-2: #3f3f46;
+  --muted: #5f5f68;
+
+  --pink: #ff5c9d;        /* fills: buttons, dots, the stripe on the train */
+  --pink-2: #ff86b6;      /* hovered fills */
+  --on-pink: #18181b;     /* text on pink */
+  --pink-text: #be185d;   /* pink words and links */
+  --focus: #be185d;
+
+  --f-sans: 'Archivo', 'Archivo Fallback', 'Helvetica Neue', Arial, sans-serif;
+
+  --gut: max(16px, env(safe-area-inset-left, 0px), clamp(20px, 4vw, 48px));
+  --head: 72px;
+  --maxw: 1200px;
+  --radius: 16px;
+  --radius-s: 10px;
+
+  /* One spacing scale for the whole site. */
+  --sp-1: 8px;
+  --sp-2: 12px;
+  --sp-3: 16px;
+  --sp-4: 24px;
+  --sp-5: 32px;
+  --sp-6: 48px;
+  --sp-7: 64px;
+  --section: clamp(64px, 8vw, 104px);
+
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --t-fast: 180ms;
+
+  /* Type: 18px body; nothing on the site is set smaller than 16px. */
+  --s-sm: 1rem;                                       /* 16 */
+  --s-0: 1.125rem;                                    /* 18 */
+  --s-1: clamp(1.25rem, 1.15rem + .4vw, 1.5rem);      /* 20–24 */
+  --s-2: clamp(1.5rem, 1.3rem + .9vw, 2rem);          /* 24–32 */
+  --s-3: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);        /* 32–44 */
+  --s-4: clamp(2.5rem, 1.9rem + 2.8vw, 4rem);         /* 40–64 */
+  --s-5: clamp(2.9rem, 1.7rem + 5vw, 6.5rem);         /* 46–104 */
+
+  color-scheme: light;
+}
+
+/* The charcoal frame: the menu bar, the home page's train, the closing band, the footer and
+   the picture viewer. Everything inside picks up these values. */
+.tone-dark {
+  --bg: #1b1b1e;
+  --bg-2: #222226;
+  --card: #26262b;
+  --card-2: #2f2f35;
+  --deep: #141416;
+  --line: #34343b;
+  --line-2: #4a4a53;
+  --field: #6e6e78;
+  --fg: #f4f4f5;
+  --fg-2: #d4d4d8;
+  --muted: #a6a6af;
+  --pink-text: #ff5c9d;
+  --focus: #ff5c9d;
+  color-scheme: dark;
+  color: var(--fg);
+}
