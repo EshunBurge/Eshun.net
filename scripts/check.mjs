@@ -28,6 +28,8 @@ async function walk(dir) {
 const exists = (p) => fs.stat(p).then(() => true, () => false);
 
 await walk(DIST);
+// a site served from a sub-path (GitHub project pages) writes links as /repo/page/; check them without the prefix
+const BASE = (process.env.BASE_PATH || process.argv.find((a) => a.startsWith('--base='))?.slice(7) || '/').replace(/\/?$/, '/');
 for (const [url, { html }] of pages) {
   const redirect = /http-equiv="refresh"/.test(html);
   if (!redirect) {
@@ -43,6 +45,8 @@ for (const [url, { html }] of pages) {
     const [pth, hash] = link.split('#');
     let target = pth ? new URL(pth, 'https://x' + url).pathname : url;
     target = decodeURIComponent(target);
+    if (BASE !== '/' && target.startsWith(BASE)) target = '/' + target.slice(BASE.length);
+    else if (BASE !== '/' && target === BASE.slice(0, -1)) target = '/';
     if (target.endsWith('/')) {
       if (!pages.has(target)) problems.push(`${url}: broken link → ${link}`);
       else if (hash && !pages.get(target).ids.has(hash) && !/refresh/.test(pages.get(target).html)) problems.push(`${url}: missing anchor → ${link}`);
