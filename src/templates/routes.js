@@ -5,6 +5,7 @@ import home from './pages/home.js';
 import category from './pages/category.js';
 import project from './pages/project.js';
 import about from './pages/about.js';
+import tesh from './pages/tesh.js';
 import { fun, photoSet } from './pages/fun.js';
 import { contact, links, demo, notFound } from './pages/misc.js';
 import { projects } from '../data/projects.js';
@@ -19,6 +20,7 @@ export const routes = [
   { path: '/about/', render: about },
   { path: '/links/', render: links },
   { path: '/contact/', render: contact },
+  { path: '/tesh/', render: tesh },
   ...projects.filter((p) => p.layout).map((p) => ({ path: `/${p.slug}/`, render: project(p) })),
   ...sets.map((s) => ({ path: `/photography-${s.id}/`, render: photoSet(s) })),
   // live demos from the original site, at the same (sic) URLs so existing links keep working

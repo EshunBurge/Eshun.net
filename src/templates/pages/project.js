@@ -12,7 +12,7 @@
 //   6. the version it grew from or into, if any; then the previous and next projects as tickets
 import { html, raw } from '../lib.js';
 import { layout } from '../layout.js';
-import { pageHead, pass, nextStops, btn, figure, arrow, coverArt } from '../partials.js';
+import { pageHead, pass, nextStops, btn, figure, arrow, coverArt, catArt } from '../partials.js';
 import { categories } from '../../data/site.js';
 import { byDiscipline, projectBySlug } from '../../data/projects.js';
 
@@ -41,7 +41,7 @@ export default function project(p) {
       count: [x.kind, x.year].filter(Boolean).join(' · '),
       img: coverArt(ctx, x),
     }));
-    const all = { href: cat.href, name: `All ${cat.label}`, count: `${siblings.length} projects`, scene: cat.id, label: cat.label };
+    const all = { href: cat.href, name: `All ${cat.label}`, count: `${siblings.length} projects`, scene: cat.id, img: catArt(ctx, cat), label: cat.label };
     const studyNote = '';
 
     // The story, said once. A first paragraph that only repeats the line under the title is
@@ -275,9 +275,9 @@ function reader(ctx, p) {
   return p.reader.map((r0) => { const r = ctx.preview ? { ...r0, count: Math.min(r0.count, 8), note: `${r0.note} This preview shows the first 8 pages.` } : r0; return html`<section class="section proj__reader" aria-labelledby="reader-title-${r.count}">
     <div class="wrap">
       <div class="sec-head"><h2 class="sec-title" id="reader-title-${r.count}">${r.title}</h2><p class="sec-head__note">${r.note}</p></div>
-      <ol class="reader">${Array.from({ length: r.count }, (_, i) => {
+      <ol class="reader" tabindex="0" role="region" aria-label="${r.title}: scroll to read">${Array.from({ length: r.count }, (_, i) => {
         const key = `${r.dir}/p-${String(i + 1).padStart(2, '0')}`;
-        return html`<li class="reader__pg"><a class="reader__a" href="${ctx.src(key, 1600)}" data-viewer="${p.slug}-paper" data-title="${p.title}, page ${i + 1} of ${r.count}">${ctx.img(key, { alt: `${p.title}, page ${i + 1}`, sizes: '(max-width: 760px) 44vw, 22vw' })}<span class="reader__n">${i + 1}</span></a></li>`;
+        return html`<li class="reader__pg"><a class="reader__a" href="${ctx.src(key, 1600)}" data-viewer="${p.slug}-paper" data-title="${p.title}, page ${i + 1} of ${r.count}">${ctx.img(key, { alt: `${p.title}, page ${i + 1}`, sizes: '(max-width: 760px) 92vw, 860px' })}<span class="reader__n">${i + 1}</span></a></li>`;
       })}</ol>
     </div>
   </section>`; });
@@ -292,6 +292,18 @@ function piece(ctx, p, pc) {
   // a booklet of four or more keeps a row of its own; everything else takes its share of a row
   const r = pages.reduce((n, pg) => n + ctx.ratio(pg.key), 0);
   const full = pc.booklet?.length > 3;
+  if (full) {
+    // a booklet of several pages is a framed box you scroll through, page after page
+    const wide = pages.some((pg) => ctx.ratio(pg.key) > 1);
+    const list = ctx.preview ? pages.slice(0, 8) : pages;
+    return html`<figure class="piece pagebox${wide ? '' : ' pagebox--narrow'} flow__full">
+    <div class="pagebox__in" tabindex="0" role="region" aria-label="${pc.name}: scroll to read">${list.map((pg) => {
+      const label = pg.label ? `${pc.name}, ${pg.label}` : pc.name;
+      return html`<div class="pagebox__pg"><a class="pagebox__a" href="${ctx.src(pg.key, 2400)}" data-viewer="${p.slug}" data-title="${label}">${ctx.img(pg.key, { alt: label, sizes: '(max-width: 760px) 92vw, 860px' })}</a></div>`;
+    })}</div>
+    <figcaption><span class="piece__name">${pc.name}</span>${pc.note ? html` <span class="piece__note">${pc.note}</span>` : ''}</figcaption>
+  </figure>`;
+  }
   return html`<figure class="piece${pc.booklet ? ' piece--booklet' : ''}${pc.back ? ' piece--two' : ''}${full ? ' flow__full' : ''}" style="--r:${r.toFixed(3)};--n:${pages.length}">
     <div class="piece__imgs">${pages.map((pg) => {
       const label = pg.label ? `${pc.name}, ${pg.label}` : pc.name;

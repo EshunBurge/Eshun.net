@@ -470,7 +470,7 @@ ol.org__roles { position: relative; padding-left: 38px; }
 .sec-head__note { color: var(--muted); font-weight: 600; }
 
 /* ── A long page's sections, always in reach (About) ────────────────── */
-.subnav { position: sticky; top: calc(var(--head) - 8px); z-index: 60; background: #fff; border-block: 1px solid var(--line); box-shadow: 0 8px 20px -18px rgba(20, 18, 30, .5); }
+.subnav { position: sticky; top: var(--head); z-index: 60; background: #fff; border-block: 1px solid var(--line); box-shadow: 0 8px 20px -18px rgba(20, 18, 30, .5); }
 .subnav .wrap { padding-inline: 0; max-width: none; }
 .subnav__list { display: flex; justify-content: center; gap: 0; overflow-x: auto; scrollbar-width: none; }
 .subnav__list::-webkit-scrollbar { display: none; }
@@ -483,15 +483,17 @@ ol.org__roles { position: relative; padding-left: 38px; }
 @media (max-width: 900px) { .subnav__list { justify-content: flex-start; } }
 html:has(.subnav) { scroll-padding-top: calc(var(--head) + 64px); }
 .moments.moments--strip { margin-top: var(--sp-5); grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); margin-bottom: var(--sp-6); }
-.moments--strip .moment .fig__a { aspect-ratio: 3 / 2; }
-.moments--strip .moment .fig__a img { object-position: 50% 25%; }
-@media (max-width: 760px) { .moments.moments--strip { grid-template-columns: 1fr 1fr; } .moments--strip .moment:nth-child(3) { display: none; } }
+.moments.moments--strip { display: flex; align-items: flex-start; gap: var(--sp-3); }
+.moments--strip .moment { flex: var(--r, 1.5) 1 0; min-width: 0; }
+.moments--strip .moment .fig__a { aspect-ratio: auto; }
+.moments--strip .moment .fig__a img { height: auto; }
+@media (max-width: 760px) { .moments.moments--strip { flex-wrap: wrap; } .moments--strip .moment { flex: 1 1 100%; } }
 
 /* ── Pictures: the About page and the home page's leadership ────────── */
 .moments, .lead-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-4); align-items: start; }
 .lead-photos { margin-bottom: var(--sp-6); }
-.moment .fig__a { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); }
-.moment .fig__a img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s cubic-bezier(.2, .8, .2, 1); }
+.moment .fig__a { display: block; overflow: hidden; border-radius: var(--radius); }
+.moment .fig__a img { width: 100%; height: auto; object-fit: contain; transition: transform 1.1s cubic-bezier(.2, .8, .2, 1); }
 .moment .fig__a:hover img { transform: scale(1.04); }
 @media (max-width: 860px) {
   .moments, .lead-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }

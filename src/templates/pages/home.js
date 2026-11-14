@@ -11,7 +11,7 @@ import { projectBySlug } from '../../data/projects.js';
 import { roles, organisations, awards } from '../../data/archive.js';
 import { aspiration, venture, moments } from '../../data/about.js';
 import { openSets, photoLinks } from '../../data/photos.js';
-import { setsShown, framesIn, setHref, stopOf } from './fun.js';
+import { setsShown, framesIn, setHref, stopOf, setArt } from './fun.js';
 import { when } from '../dates.js';
 
 // What the home page shows from the longer lists (the rest lives on its own page).
@@ -86,10 +86,10 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
 
 <section class="section" aria-labelledby="research-title">
   <div class="wrap split split--flip">
-    <div class="split__media"><div class="split__media--two split__media--stack">
-      ${ctx.img('people/eshun-science-fair', { alt: 'Eshun beside a research poster at a science fair', sizes: '(max-width: 860px) 46vw, 23vw' })}
-      ${ctx.img('people/eshun-research-poster', { alt: 'Eshun presenting a research poster on the science-fair floor', sizes: '(max-width: 860px) 46vw, 23vw' })}
-    </div></div>
+    <div class="split__media split__media--flow">
+      ${ctx.img('people/eshun-science-fair', { alt: 'Eshun beside a research poster at a science fair', sizes: '(max-width: 860px) 92vw, 46vw' })}
+      ${ctx.img('people/eshun-research-poster', { alt: 'Eshun presenting a research poster on the science-fair floor', sizes: '(max-width: 860px) 92vw, 46vw' })}
+    </div>
     <div class="split__text">
       <p class="kicker">Research</p>
       <h2 class="sec-title" id="research-title">${ml.title}</h2>
@@ -104,10 +104,9 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
 
 <section class="section section--alt" aria-labelledby="hi-title">
   <div class="wrap split">
-    <div class="split__media"><div class="split__media--two split__media--stack">
-      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 46vw, 20vw', style: 'object-position:50% 30%' })}
-      ${ctx.img('people/eshun-portrait-blazer', { alt: 'Eshun Burge in a blazer', sizes: '(max-width: 860px) 46vw, 20vw', style: 'object-position:50% 20%' })}
-    </div></div>
+    <div class="split__media split__media--flow">
+      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 92vw, 46vw' })}
+    </div>
     <div class="split__text">
       <h2 class="sec-title" id="hi-title">Hi, I’m Eshun.</h2>
       <div class="prose">
@@ -123,7 +122,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
 <section class="section" aria-labelledby="lead-title">
   <div class="wrap">
     ${secHead({ id: 'lead-title', title: 'Leadership & awards', link: { href: '/about/#moments', label: 'More pictures' }, ctx })}
-    <div class="lead-photos">${moments.slice(0, 3).map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: 'lead', cls: 'moment' }))}</div>
+    <div class="moments moments--strip lead-photos">${moments.slice(0, 3).map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: 'lead', cls: 'moment', style: `--r:${ctx.ratio(m.key).toFixed(3)}` }))}</div>
     <div class="duo-lists">
       <div class="duo-lists__col">
         <div class="list-head"><h3 class="list-head__title">Leadership now</h3><a class="more" href="${ctx.url('/about/#experience')}">All experience ${arrow()}</a></div>
@@ -149,7 +148,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
       <p class="tesh__motto">${venture.motto}</p>
       <p class="tesh__lede">${venture.text}</p>
       <p class="tesh__role">${venture.role}</p>
-      <p class="split__actions">${btn(ctx, { href: venture.href, label: 'Visit teshtechnology.com', kind: 'pink' })} ${btn(ctx, { href: '/tesh-technology/', label: 'The website project' })}</p>
+      <p class="split__actions">${btn(ctx, { href: venture.href, label: 'Visit teshtechnology.com', kind: 'pink' })} ${btn(ctx, { href: '/tesh/', label: 'About Tesh Technology' })}</p>
     </div>
     <div class="tesh__art" aria-hidden="true">
       <span class="tesh__win"><span class="cover__bar"><i></i><i></i><i></i></span>${ctx.img('work/tesh-technology/home', { alt: '', sizes: '(max-width: 860px) 92vw, 640px' })}</span>
@@ -167,7 +166,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
   <div class="wrap">
     ${secHead({ id: 'lens-title', title: 'Photography', link: { href: '/just-for-fun/', label: 'Just for Fun' }, ctx })}
     <ul class="tickets tickets--4">
-      ${stops.map((st) => html`<li>${ticket(ctx, { href: ctx.url(setHref(st)), scene: st.id, name: st.name, count: `${framesIn(st).length} ${framesIn(st).length === 1 ? 'photo' : 'photos'}`, label: stopOf(st) })}</li>`)}
+      ${stops.map((st) => html`<li>${ticket(ctx, { href: ctx.url(setHref(st)), scene: st.id, img: setArt(ctx, st), name: st.name, count: `${framesIn(st).length} ${framesIn(st).length === 1 ? 'photo' : 'photos'}`, label: stopOf(st) })}</li>`)}
       <li>${ticket(ctx, { href: ctx.url('/just-for-fun/#collections'), scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}</li>
     </ul>
     <p class="lens__links">${btn(ctx, { href: photoLinks[0].href, label: 'Instagram' })} ${btn(ctx, { href: photoLinks[1].href, label: 'VSCO' })}</p>

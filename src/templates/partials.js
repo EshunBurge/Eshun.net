@@ -1,7 +1,7 @@
 // src/templates/partials.js — pieces shared by every page.
 import { html, raw, arrow, pad } from './lib.js';
 import { categories, categoryById, nav } from '../data/site.js';
-import { projects, projectBySlug } from '../data/projects.js';
+import { projects, projectBySlug, byDiscipline } from '../data/projects.js';
 import { openSets } from '../data/photos.js';
 import { ticketArt, CUTE_COUNT } from './tickets.js';
 import { bigTrain } from './line-art.js';
@@ -180,6 +180,17 @@ export function coverArt(ctx, p, { sizes = '(max-width: 760px) 70vw, 340px', pri
   return html`<span class="cover cover--tint${tint} cover--sheets" style="--sum:${sum.toFixed(3)}">${keys.map((k, i) => html`<span class="cover__sheet" style="--r:${rs[i].toFixed(3)}">${ctx.img(k, { alt: '', sizes: '(max-width: 760px) 40vw, 200px', priority: priority && i === 0 })}</span>`)}</span>`;
 }
 
+/** A kind of work's picture on its ticket: a real piece from it (one of its project covers, or a photograph
+ *  shown whole), never a drawing. */
+export function catArt(ctx, c) {
+  if (c.id === 'fun') return ctx.img('photo/prague', { alt: '', sizes: '(max-width: 760px) 80vw, 400px', cls: 'is-whole' });
+  const p = byDiscipline(c.discipline).find((x) => x.layout);
+  // graphic design: one whole piece (the State Leadership Conference program), not a pair
+  const one = c.id === 'design' && projectBySlug['fl-tsa-slc'];
+  if (one) return coverArt(ctx, { ...one, collage: [one.cover] }, { sizes: '(max-width: 760px) 80vw, 40vw' });
+  return p ? coverArt(ctx, p, { sizes: '(max-width: 760px) 80vw, 40vw' }) : null;
+}
+
 /** One project as a card: picture, what it is, one line, and a link to its page. */
 export function projectCard(ctx, p, { sizes = '(max-width: 760px) 92vw, 44vw', headingLevel = 3, eager = false } = {}) {
   const href = p.layout ? ctx.url(projectHref(p)) : '';
@@ -218,7 +229,7 @@ export function categoryTiles(ctx, { except = '', heading = 'More of my work', i
   <div class="wrap">
     ${secHead({ id: `${id}-title`, title: heading })}
     <ul class="tickets${list.length > 3 ? ' tickets--4' : ''}">
-      ${list.map((c) => html`<li>${ticket(ctx, { href: ctx.url(c.href), id: c.id, scene: c.id, name: c.label, count: countOf(c), label: `Platform ${platformOf(c.id)}` })}</li>`)}
+      ${list.map((c) => html`<li>${ticket(ctx, { href: ctx.url(c.href), id: c.id, scene: c.id, img: catArt(ctx, c), name: c.label, count: countOf(c), label: `Platform ${platformOf(c.id)}` })}</li>`)}
     </ul>
   </div>
 </section>`;

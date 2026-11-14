@@ -20,7 +20,7 @@ const SECTIONS = [
 ];
 
 /** A strip of pictures of me between sections: opens in the viewer, nothing written under them. */
-const strip = (ctx, list, group) => html`<div class="moments moments--strip" style="--n:${list.length}">${list.map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: group, cls: 'moment' }))}</div>`;
+const strip = (ctx, list, group) => html`<div class="moments moments--strip" style="--n:${list.length}">${list.map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: group, cls: 'moment', style: `--r:${ctx.ratio(m.key).toFixed(3)}` }))}</div>`;
 
 export default function aboutPage(ctx) {
   const docs = ctx.site.documents;
@@ -37,7 +37,7 @@ ${pageHead(ctx, {
     platform: platformOf('about'),
     title: 'About me',
     intro: about.standfirst,
-    ticket: { scene: 'cute1', id: 'about', name: 'Eshun Burge', count: 'About me', label: `Platform ${platformOf('about')}` },
+    ticket: { img: ctx.img('people/eshun-portrait-outdoor', { alt: '', sizes: '400px', cls: 'is-whole' }), scene: 'cute1', id: 'about', name: 'Eshun Burge', count: 'About me', label: `Platform ${platformOf('about')}` },
     visit: 'about',
   })}
 <nav class="subnav" aria-label="On this page">
@@ -47,7 +47,7 @@ ${pageHead(ctx, {
 <section class="section section--first" id="story" aria-labelledby="story-title">
   <div class="wrap split split--solo">
     <div class="split__media split__media--solo">
-      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 92vw, 34vw', priority: true, style: 'object-position:50% 30%' })}
+      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 92vw, 34vw', priority: true })}
     </div>
     <div class="split__text">
       <h2 class="sec-title" id="story-title">Hi, I’m Eshun.</h2>
@@ -167,7 +167,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'what' })}`;
     description: 'About Eshun Burge: IB student, Florida TSA State Secretary and founder of Tesh Technology. Experience, awards, skills, résumé and CV.',
     current: 'about',
     page: 'about',
-    ogImage: 'people/eshun-portrait-blazer',
+    ogImage: 'people/eshun-portrait-outdoor',
     body,
   });
 }

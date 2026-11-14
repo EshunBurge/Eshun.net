@@ -2,7 +2,7 @@
 // photographs, at the original /photography-<country>/ URLs), then piano and swimming.
 import { html, raw } from '../lib.js';
 import { layout } from '../layout.js';
-import { pageHead, secHead, btn, categoryTiles, ticket, platformOf, nextStops, arrow } from '../partials.js';
+import { pageHead, secHead, btn, categoryTiles, ticket, platformOf, nextStops, arrow, catArt } from '../partials.js';
 import { categoryById } from '../../data/site.js';
 import { frames, sets, openSets, photoLinks } from '../../data/photos.js';
 import { roles } from '../../data/archive.js';
@@ -29,10 +29,13 @@ export const stopOf = (s) => (openSets.includes(s) ? `Stop ${openSets.indexOf(s)
 /** The collections that are shown: the ones with photographs. */
 export const setsShown = () => openSets;
 
+/** A collection's picture on its ticket: its first photograph, shown whole. */
+export const setArt = (ctx, s) => (framesIn(s)[0] ? ctx.img(framesIn(s)[0].key, { alt: '', sizes: '(max-width: 760px) 80vw, 400px', cls: 'is-whole' }) : null);
+
 /** Every collection as a ticket, plus the mystery stop: a photograph from anywhere on the line,
  *  picked at random each time it's opened (without JavaScript it opens the first one). */
 export function collectionTickets(ctx, list = setsShown(), { mystery = true } = {}) {
-  const items = list.map((s) => ticket(ctx, { href: ctx.url(setHref(s)), scene: s.id, name: s.name, count: countLine(framesIn(s).length), label: stopOf(s) }));
+  const items = list.map((s) => ticket(ctx, { href: ctx.url(setHref(s)), scene: s.id, img: setArt(ctx, s), name: s.name, count: countLine(framesIn(s).length), label: stopOf(s) }));
   const pool = frames.filter((f) => sets.some((s) => s.id === f.set));
   if (mystery && pool.length) {
     const deck = pool.map((f) => [ctx.src(f.key, 2400), captionOf(f)]);
@@ -60,9 +63,8 @@ export function fun(ctx) {
 ${pageHead(ctx, {
     platform: platformOf('fun'),
     title: cat.label,
-    intro: cat.intro,
     meta: `${openSets.length} photo collections`,
-    ticket: { scene: 'fun', id: 'fun', name: cat.label, count: `${openSets.length} photo collections`, label: `Platform ${platformOf('fun')}` },
+    ticket: { img: ctx.img('photo/prague', { alt: '', sizes: '400px', cls: 'is-whole' }), scene: 'fun', id: 'fun', name: cat.label, count: `${openSets.length} photo collections`, label: `Platform ${platformOf('fun')}` },
     visit: 'fun',
   })}
 
@@ -109,7 +111,7 @@ ${pageHead(ctx, {
   title: s.name,
   intro,
   meta: `${countLine(fs.length)} · Photo collection`,
-  ticket: { scene: s.id, id: s.id, name: s.name, count: countLine(fs.length), label: stopOf(s) },
+  ticket: { img: setArt(ctx, s), scene: s.id, id: s.id, name: s.name, count: countLine(fs.length), label: stopOf(s) },
   visit: s.id,
 })}
 <section class="section section--first" aria-label="Photos">
@@ -117,7 +119,7 @@ ${pageHead(ctx, {
     ${fs.length
       ? html`<div class="photos photos--set">${fs.map((f) => photo(ctx, f, s.id, '(max-width: 560px) 92vw, (max-width: 960px) 46vw, 31vw'))}</div>`
       : html`<div class="soon"><p class="soon__text">Photos from this collection are coming soon. In the meantime, more of my photography is on Instagram and VSCO.</p>${followLinks(ctx)}</div>`}
-    ${nextStops(ctx, setsShown().map((x) => ({ href: setHref(x), scene: x.id, id: x.id, name: x.name, count: countLine(framesIn(x).length), start: stopOf(x) })), setHref(s), { href: `${cat.href}#collections`, scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}
+    ${nextStops(ctx, setsShown().map((x) => ({ href: setHref(x), img: setArt(ctx, x), scene: x.id, id: x.id, name: x.name, count: countLine(framesIn(x).length), start: stopOf(x) })), setHref(s), { href: `${cat.href}#collections`, scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}
   </div>
 </section>`;
 

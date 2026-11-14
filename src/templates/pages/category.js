@@ -4,7 +4,7 @@
 // the questions behind it and the science-fair record.
 import { html } from '../lib.js';
 import { layout } from '../layout.js';
-import { pageHead, projectCard, filters, categoryTiles, secHead, facts, platformOf } from '../partials.js';
+import { pageHead, projectCard, filters, categoryTiles, secHead, facts, platformOf, catArt } from '../partials.js';
 import { categoryById } from '../../data/site.js';
 import { byDiscipline } from '../../data/projects.js';
 import { awards, roles, scienceFair, tools } from '../../data/archive.js';
@@ -72,9 +72,8 @@ export default function category(id) {
 ${pageHead(ctx, {
     platform: platformOf(cat.id),
     title: cat.label,
-    intro: cat.intro,
     meta: `${n} ${n === 1 ? 'project' : 'projects'}`,
-    ticket: { scene: cat.id, id: cat.id, name: cat.label, count: `${n} ${n === 1 ? 'project' : 'projects'}`, label: `Platform ${platformOf(cat.id)}` },
+    ticket: { img: catArt(ctx, cat), scene: cat.id, id: cat.id, name: cat.label, count: `${n} ${n === 1 ? 'project' : 'projects'}`, label: `Platform ${platformOf(cat.id)}` },
     visit: cat.id,
   })}
 <section class="section section--first" aria-labelledby="list-title">

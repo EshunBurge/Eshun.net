@@ -180,8 +180,11 @@
 @media (max-width: 860px) { .split__media:has(.split__media--stack) { aspect-ratio: 5 / 6; } }
 .split--solo { align-items: start; }
 .split__media--solo { min-height: 0; position: sticky; top: calc(var(--head) + 88px); }
-.split__media--solo > img { position: static; height: auto; aspect-ratio: 4 / 5; }
-@media (max-width: 860px) { .split__media--solo { position: static; aspect-ratio: auto; } .split__media--solo > img { aspect-ratio: 4 / 3; } }
+.split__media--solo > img { position: static; height: auto; }
+@media (max-width: 860px) { .split__media--solo { position: static; aspect-ratio: auto; } }
+/* photos of me are always shown whole, at their own shape, never cropped */
+.split__media.split__media--flow { min-height: 0; aspect-ratio: auto; align-self: center; display: grid; gap: 12px; }
+.split__media--flow > img { position: static; width: 100%; height: auto; object-fit: contain; border-radius: var(--radius); box-shadow: 0 10px 28px -14px rgba(24, 24, 27, .35); }
 .split__text .sec-title { margin-bottom: var(--sp-4); }
 .split__text > p:not([class]) { color: var(--fg-2); }
 .split__lede { margin-bottom: var(--sp-2); color: var(--fg) !important; font-size: var(--s-1); font-weight: 600; line-height: 1.4; }
@@ -242,8 +245,9 @@
 
 /* ── Tesh Technology: a band of its own, bigger than the rest ────────── */
 .tesh { padding-block: calc(var(--section) * 1.2); background: var(--bg); color: var(--fg); }
+.tesh__copy, .tesh__art { min-width: 0; }
 .tesh__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-.tesh__title { font-size: var(--s-5); font-weight: 800; font-stretch: 108%; letter-spacing: -.035em; line-height: .98; }
+.tesh__title { font-size: clamp(2.4rem, 1rem + 3.6vw, 3.9rem); overflow-wrap: break-word; font-weight: 800; font-stretch: 108%; letter-spacing: -.035em; line-height: .98; }
 .tesh__motto { margin-top: var(--sp-2); color: var(--pink-text); font-size: var(--s-3); font-weight: 800; font-stretch: 110%; letter-spacing: -.02em; }
 .tesh__lede { margin-top: var(--sp-4); max-width: 46ch; color: var(--fg-2); font-size: 1.25rem; line-height: 1.55; }
 .tesh__role { margin-top: var(--sp-2); color: var(--muted); font-weight: 600; }
@@ -280,3 +284,4 @@
 @media (max-width: 560px) {
   .lens { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+.tesh__services--page { margin-top: 0; }

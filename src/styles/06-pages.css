@@ -167,8 +167,10 @@
 .resume .sub-title { margin-top: 0; }
 .resume__docs { display: flex; flex-wrap: wrap; gap: 12px; }
 .connect { border-top: 1px solid var(--line); }
-.connect__a { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 16px 2px; border-bottom: 1px solid var(--line); font-weight: 700; }
-.connect__h { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; color: var(--fg-2); font-weight: 500; text-align: right; overflow-wrap: break-word; }
+.connect__a { display: flex; flex-wrap: nowrap; white-space: nowrap; align-items: center; justify-content: space-between; gap: 4px 12px; padding: 16px 2px; border-bottom: 1px solid var(--line); font-weight: 700; }
+.connect__a > span:first-child { min-width: 0; }
+.connect__h { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; color: var(--fg-2); font-weight: 500; text-align: right; white-space: nowrap; }
+@media (max-width: 560px) { .connect__a { flex-wrap: wrap; white-space: normal; } .connect__h { white-space: normal; overflow-wrap: anywhere; } }
 .connect__a:hover .connect__h { color: var(--pink-text); }
 @media (max-width: 860px) {
   .resume { grid-template-columns: 1fr; }
@@ -244,7 +246,7 @@
 .soon__text { max-width: 46ch; color: var(--fg-2); font-size: var(--s-1); line-height: 1.45; }
 
 /* ── Contact ────────────────────────────────────────────────────────── */
-.contact { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.contact { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
 .contact__h { font-size: var(--s-2); font-weight: 800; letter-spacing: -.015em; line-height: 1.15; }
 .contact__side .contact__h:not(:first-child) { margin-top: var(--sp-6); margin-bottom: var(--sp-2); }
 .contact__mail { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: var(--sp-2); padding: 14px 24px; border-radius: 999px; background: var(--pink); color: var(--on-pink); font-size: 1.1875rem; font-weight: 700; overflow-wrap: anywhere; }
@@ -336,10 +338,13 @@
 }
 
 /* a paper read page by page */
-.reader { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-4); }
-.reader__a { position: relative; display: block; overflow: hidden; border-radius: var(--radius-s); background: #fff; box-shadow: 0 0 0 1px var(--line), 0 14px 28px -20px rgba(20, 18, 30, .5); }
-.reader__a img { display: block; width: 100%; height: auto; transition: transform .5s var(--ease); }
-.reader__a:hover img { transform: scale(1.02); }
-.reader__n { position: absolute; left: 8px; bottom: 8px; min-width: 28px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 18, 30, .82); color: #fff; font-size: .875rem; font-weight: 700; text-align: center; }
-@media (max-width: 1000px) { .reader { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 640px) { .reader { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); } }
+/* a document you scroll through: pages stacked in a framed box with a shadow */
+.reader, .pagebox__in { max-height: min(82vh, 920px); overflow-y: auto; overscroll-behavior: contain; display: grid; gap: clamp(14px, 2vw, 24px); justify-items: center; padding: clamp(14px, 3vw, 36px); background: #e4e4ea; border-radius: var(--radius); box-shadow: 0 24px 48px -26px rgba(20, 18, 30, .55), 0 0 0 1px var(--line); scrollbar-color: #9a9aa6 #e4e4ea; }
+.reader:focus-visible, .pagebox__in:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+.reader__pg, .pagebox__pg { width: min(100%, 860px); }
+.reader__a, .pagebox__a { position: relative; display: block; background: #fff; box-shadow: 0 10px 26px -12px rgba(20, 18, 30, .5), 0 0 0 1px rgba(20, 18, 30, .08); cursor: zoom-in; }
+.reader__a img, .pagebox__a img { display: block; width: 100%; height: auto; }
+.reader__n { position: absolute; right: 10px; bottom: 10px; min-width: 28px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 18, 30, .82); color: #fff; font-size: .875rem; font-weight: 700; text-align: center; }
+.pagebox { display: grid; gap: 12px; }
+.pagebox--narrow .pagebox__pg { width: min(100%, 520px); }
+.proj__reader .sec-head { margin-bottom: var(--sp-4); }
