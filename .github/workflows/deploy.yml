@@ -26,7 +26,6 @@ jobs:
       - name: Build
         run: node scripts/build.mjs
         env:
-          BASE_PATH: ${{ vars.BASE_PATH || '/' }}
       - name: Check links, anchors, alt text, headings
         run: node scripts/check.mjs
       - uses: actions/configure-pages@v5
