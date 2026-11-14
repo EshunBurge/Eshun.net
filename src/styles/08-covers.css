@@ -31,7 +31,7 @@
 .cover__tile img { width: 100%; height: 100%; object-fit: contain; }
 
 /* printed work and papers: one or two pieces, side by side at one height, each whole */
-.cover--sheets { display: flex; align-items: center; justify-content: center; gap: 3cqw; }
+.cover--sheets { display: flex; align-items: center; justify-content: center; gap: 3%; }
 .cover__sheet {
   display: block; flex: none;
   height: min(78cqh, calc(88cqw / var(--sum, 1)));

@@ -53,6 +53,7 @@
    proportions (--r) plus its frame (--x), so a row runs edge to edge and its pictures line up top
    and bottom. --h is the height a row aims for; no picture grows past --hmax tall. */
 .flow {
+  justify-content: center;
   --h: clamp(200px, 21vw, 290px);
   --hmax: 560px;
   display: flex;
