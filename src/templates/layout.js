@@ -108,10 +108,11 @@ function footer(ctx, current, cta) {
   const docs = documents();
   return html`${cta ? html`<section class="cta" aria-labelledby="cta-title">
   <div class="wrap">
-    <div class="cta__in tone-dark">
-      <div class="skyline skyline--cta" aria-hidden="true"></div>
-      <h2 class="cta__title" id="cta-title">Let’s build something.</h2>
-      <p class="cta__text">Collaborations, internships, competition teams, speaking, or just a question about something on this site.</p>
+    <div class="cta__in">
+      <div class="cta__copy">
+        <h2 class="cta__title" id="cta-title">Let’s build something.</h2>
+        <p class="cta__text">Collaborations, internships, competition teams and speaking, or a question about something on this site.</p>
+      </div>
       <p class="cta__actions">
         <a class="btn btn--pink" href="${ctx.url('/contact/')}">Contact me ${arrow()}</a>
         <a class="btn" data-email href="${ctx.url('/contact/')}"><span data-email-text>Email</span></a>
@@ -137,13 +138,10 @@ function footer(ctx, current, cta) {
     </ul>
     </div>
   </div>
-  <div class="eol" data-eol>
-    <div class="wrap eol__in">
-      <p class="eol__text">End of the line.</p>
-      <a class="btn eol__top" href="#top" data-top>Back to the top ${arrow('up')}</a>
-    </div>
-    <div class="eol__track" aria-hidden="true"><span class="skyline skyline--eol"></span><span class="eol__train">${raw(miniTrainSvg('eol', { night: true }))}</span><span class="eol__buffer"></span></div>
+  <div class="wrap ftr__bottom">
+    <p class="ftr__copy">© 2026 Eshun Burge · ${site.region}</p>
+    <a class="ftr__top" href="#top" data-top>Back to top ${arrow('up')}</a>
   </div>
-  <p class="wrap ftr__copy">© 2026 Eshun Burge · ${site.region}</p>
+  <template data-express-train>${raw(miniTrainSvg('express', { night: true }))}</template>
 </footer>`;
 }

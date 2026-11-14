@@ -4,18 +4,18 @@
 // collections as tickets.
 import { html, raw } from '../lib.js';
 import { layout } from '../layout.js';
-import { projectCard, categoryTiles, secHead, btn, ticket, arrow, board, city } from '../partials.js';
+import { projectCard, categoryTiles, secHead, btn, ticket, arrow, board, city, figure } from '../partials.js';
 import { bigTrain } from '../line-art.js';
 import { stats } from '../../data/site.js';
 import { projectBySlug } from '../../data/projects.js';
 import { roles, organisations, awards } from '../../data/archive.js';
-import { aspiration, venture } from '../../data/about.js';
-import { sets, photoLinks } from '../../data/photos.js';
+import { aspiration, venture, moments } from '../../data/about.js';
+import { openSets, photoLinks } from '../../data/photos.js';
 import { setsShown, framesIn, setHref, stopOf } from './fun.js';
 import { when } from '../dates.js';
 
 // What the home page shows from the longer lists (the rest lives on its own page).
-const FEATURED = ['aflare', 'neuroassist', 'in-another-life', 'greenerpick'];
+const FEATURED = ['aflare', 'visit-shark-tooth-bay', 'verdurre', 'neuroassist'];
 const NOW = [
   ['tsa', 'Florida TSA State Secretary, 2026–27'],
   ['tsa', 'Chapter Vice President, 2026–27'],
@@ -44,7 +44,7 @@ export default function home(ctx) {
     return awards.find((x) => x.title === title && (!level || x.level === level));
   });
   // the collections with photographs, as tickets, and a pass for the whole line
-  const stops = setsShown().filter((st) => framesIn(st).length).slice(0, 3);
+  const stops = setsShown().slice(0, 3);
 
   const body = html`
 <section class="hero tone-dark" aria-labelledby="hero-title">
@@ -86,23 +86,28 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
 
 <section class="section" aria-labelledby="research-title">
   <div class="wrap split split--flip">
-    <figure class="split__media">${ctx.img(ml.cover, { alt: 'Eshun presenting her research poster at a science fair', sizes: '(max-width: 860px) 92vw, 46vw' })}</figure>
+    <div class="split__media"><div class="split__media--two split__media--stack">
+      ${ctx.img('people/eshun-science-fair', { alt: 'Eshun beside a research poster at a science fair', sizes: '(max-width: 860px) 46vw, 23vw' })}
+      ${ctx.img('people/eshun-research-poster', { alt: 'Eshun presenting a research poster on the science-fair floor', sizes: '(max-width: 860px) 46vw, 23vw' })}
+    </div></div>
     <div class="split__text">
       <p class="kicker">Research</p>
       <h2 class="sec-title" id="research-title">${ml.title}</h2>
-      <p class="split__lede">${ml.deck}</p>
-      <p>${ml.summary}</p>
+      <p class="split__lede">${ml.summary}</p>
       <ul class="ladder">
         ${ml.recognition.map((r) => html`<li><span class="ladder__level">${r.level}</span><span class="ladder__result">${r.result}</span></li>`)}
       </ul>
-      <p class="split__actions">${btn(ctx, { href: `/${ml.slug}/`, label: 'Read about the research', kind: 'pink' })} ${btn(ctx, { href: '/science-projects/', label: 'All science projects' })}</p>
+      <p class="split__actions">${btn(ctx, { href: `/${ml.slug}/`, label: 'Read about the research', kind: 'pink' })} ${btn(ctx, { href: '/science-projects/', label: 'All research' })}</p>
     </div>
   </div>
 </section>
 
 <section class="section section--alt" aria-labelledby="hi-title">
   <div class="wrap split">
-    <figure class="split__media portrait">${ctx.img('people/eshun-portrait-blazer', { alt: 'Portrait of Eshun Burge in her Florida TSA officer blazer', sizes: '(max-width: 860px) 80vw, 34vw' })}</figure>
+    <div class="split__media"><div class="split__media--two split__media--stack">
+      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 46vw, 20vw', style: 'object-position:50% 30%' })}
+      ${ctx.img('people/eshun-portrait-blazer', { alt: 'Eshun Burge in a blazer', sizes: '(max-width: 860px) 46vw, 20vw', style: 'object-position:50% 20%' })}
+    </div></div>
     <div class="split__text">
       <h2 class="sec-title" id="hi-title">Hi, I’m Eshun.</h2>
       <div class="prose">
@@ -117,7 +122,8 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
 
 <section class="section" aria-labelledby="lead-title">
   <div class="wrap">
-    <h2 class="sec-title sec-title--solo" id="lead-title">Leadership & awards</h2>
+    ${secHead({ id: 'lead-title', title: 'Leadership & awards', link: { href: '/about/#moments', label: 'More pictures' }, ctx })}
+    <div class="lead-photos">${moments.slice(0, 3).map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: 'lead', cls: 'moment' }))}</div>
     <div class="duo-lists">
       <div class="duo-lists__col">
         <div class="list-head"><h3 class="list-head__title">Leadership now</h3><a class="more" href="${ctx.url('/about/#experience')}">All experience ${arrow()}</a></div>
@@ -135,17 +141,23 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
   </div>
 </section>
 
-<section class="section section--alt" aria-labelledby="tesh-title">
-  <div class="wrap venture">
-    <div class="venture__text">
+<section class="section section--alt tesh tone-dark" aria-labelledby="tesh-title">
+  <div class="wrap tesh__grid">
+    <div class="tesh__copy">
       <p class="kicker">My company</p>
-      <h2 class="sec-title" id="tesh-title">${venture.name}</h2>
-      <p class="venture__motto">${venture.motto}</p>
-      <p class="venture__lede">${venture.text}</p>
-      <p class="venture__role">${venture.role}</p>
-      <p class="split__actions">${btn(ctx, { href: venture.href, label: 'Visit teshtechnology.com', kind: 'pink' })}</p>
+      <h2 class="tesh__title" id="tesh-title">${venture.name}</h2>
+      <p class="tesh__motto">${venture.motto}</p>
+      <p class="tesh__lede">${venture.text}</p>
+      <p class="tesh__role">${venture.role}</p>
+      <p class="split__actions">${btn(ctx, { href: venture.href, label: 'Visit teshtechnology.com', kind: 'pink' })} ${btn(ctx, { href: '/tesh-technology/', label: 'The website project' })}</p>
     </div>
-    <ul class="venture__services">
+    <div class="tesh__art" aria-hidden="true">
+      <span class="tesh__win"><span class="cover__bar"><i></i><i></i><i></i></span>${ctx.img('work/tesh-technology/home', { alt: '', sizes: '(max-width: 860px) 92vw, 640px' })}</span>
+      <span class="tesh__phone">${ctx.img('work/tesh-technology/mobile-home', { alt: '', sizes: '200px' })}</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <ul class="tesh__services">
       ${venture.services.map((v) => html`<li class="service"><h3 class="service__title">${v.title}</h3><p class="service__text">${v.text}</p></li>`)}
     </ul>
   </div>
@@ -156,7 +168,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
     ${secHead({ id: 'lens-title', title: 'Photography', link: { href: '/just-for-fun/', label: 'Just for Fun' }, ctx })}
     <ul class="tickets tickets--4">
       ${stops.map((st) => html`<li>${ticket(ctx, { href: ctx.url(setHref(st)), scene: st.id, name: st.name, count: `${framesIn(st).length} ${framesIn(st).length === 1 ? 'photo' : 'photos'}`, label: stopOf(st) })}</li>`)}
-      <li>${ticket(ctx, { href: ctx.url('/just-for-fun/#collections'), scene: 'line', id: 'all', name: 'Every stop', count: `All ${sets.length} collections`, label: 'All stops' })}</li>
+      <li>${ticket(ctx, { href: ctx.url('/just-for-fun/#collections'), scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}</li>
     </ul>
     <p class="lens__links">${btn(ctx, { href: photoLinks[0].href, label: 'Instagram' })} ${btn(ctx, { href: photoLinks[1].href, label: 'VSCO' })}</p>
   </div>

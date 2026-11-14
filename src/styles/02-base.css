@@ -72,6 +72,11 @@ main { display: block; outline: none; }
   border-block: 1px solid var(--line);
 }
 .tone-dark .section--alt, .section--alt.tone-dark { --card: #26262b; --card-2: #2f2f35; }
+/* Two bands of the same colour in a row read as one, so the space between them isn't doubled:
+   one band's padding is the gap, the same as between any two sections. */
+.section:not(.section--alt) + .section:not(.section--alt),
+.section--alt + .section--alt { padding-top: 0; }
+.section--alt + .section--alt { border-top: 0; }
 
 /* ── Text ───────────────────────────────────────────────────────────── */
 .prose { max-width: 66ch; color: var(--fg-2); }

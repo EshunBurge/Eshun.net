@@ -8,6 +8,7 @@ const features = [
   ['[data-city]', () => import('./modules/city.js')],
   ['[data-board]', () => import('./modules/board.js')],
   ['[data-ticket]', () => import('./modules/tickets.js')],
+  ['.subnav', () => import('./modules/subnav.js')],
   ['[data-contact-form]', () => import('./modules/contact.js')],
 ];
 

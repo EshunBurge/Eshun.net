@@ -421,6 +421,109 @@ ${lake.s}${ferry}<rect x="-5" y="236" width="${W + 10}" height="64" fill="#08182
   },
 };
 
+/* ── covers for the kinds of work, and soft scenes behind each project's cover ───────────── */
+/** A cloud: three overlapping discs on a flat base. */
+const cloud = (x, y, k, fill, o = 0.9) => `<g transform="translate(${x} ${y}) scale(${k})" fill="${fill}" opacity="${o}"><circle cx="0" cy="0" r="9"/><circle cx="12" cy="-5" r="12"/><circle cx="26" cy="0" r="9"/><rect x="-9" y="0" width="44" height="9" rx="4.5"/></g>`;
+/** A small app window: bar, three dots, a few lines and a button, in an accent colour. */
+function appWindow(x, y, w, h, rot, accent, fill = '#fff') {
+  const lines = [0.34, 0.5, 0.64].map((t, i) => `<rect x="${n(w * 0.1)}" y="${n(h * t)}" width="${n(w * (i === 1 ? 0.5 : 0.72))}" height="${n(Math.max(2.4, h * 0.06))}" rx="1.6" fill="${accent}" opacity="${i === 0 ? 0.9 : 0.35}"/>`).join('');
+  return `<g transform="translate(${x} ${y}) rotate(${rot} ${w / 2} ${h / 2})"><rect x="1" y="3" width="${w}" height="${h}" rx="7" fill="#1a1530" opacity=".22"/><rect width="${w}" height="${h}" rx="7" fill="${fill}"/><path d="M0 7a7 7 0 0 1 7-7h${w - 14}a7 7 0 0 1 7 7v${h * 0.15}H0Z" fill="${accent}" opacity=".18"/><circle cx="9" cy="${n(h * 0.075)}" r="2.2" fill="#ff7aa8"/><circle cx="17" cy="${n(h * 0.075)}" r="2.2" fill="#ffd27a"/><circle cx="25" cy="${n(h * 0.075)}" r="2.2" fill="#8fe0b4"/>${lines}<rect x="${n(w * 0.1)}" y="${n(h * 0.78)}" width="${n(w * 0.26)}" height="${n(h * 0.11)}" rx="${n(h * 0.055)}" fill="${accent}"/></g>`;
+}
+
+Object.assign(SCENES, {
+  // Software Design: windows of apps hung over a dusk city, a code mark, the train on its viaduct.
+  software(id) {
+    const p = pen(311);
+    const far = blocks(p, { base: 214, minH: 20, maxH: 70, minW: 16, maxW: 34, fill: '#6b3c86' });
+    const near = blocks(p, { base: 236, minH: 12, maxH: 40, minW: 18, maxW: 38, fill: '#4a2766' });
+    const code = `<g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".92"><path d="M352 52l-16 14 16 14M378 52l16 14-16 14M370 46l-10 40"/></g>`;
+    return {
+      night: true,
+      defs: `${lin(`${id}-sky`, [[0, '#2d2a6b'], [0.5, '#a24a97'], [1, '#ffb48f']])}${rad(`${id}-glow`, [[0, '#fff0d8', 0.95], [0.4, '#ffd0b8', 0.4], [1, '#ffd0b8', 0]])}`,
+      art: `<rect width="${W}" height="${H}" fill="url(#${id}-sky)"/>${stars(p, 22, { bottom: 110 })}${glowDisc(id, 300, 188, 26, '#fff1da', 2.8)}
+<path d="M-10 214" fill="none"/>${far.s}${windows(p, far.boxes, { chance: 0.25 })}${near.s}${windows(p, near.boxes, { chance: 0.3 })}
+${appWindow(28, 34, 150, 98, -4, '#7c4dff')}${appWindow(196, 54, 124, 82, 3, '#ff5c9d')}${appWindow(104, 120, 118, 70, -2, '#18b8a0')}${code}
+${deck(236, '#2b1646')}${pylons(236, { every: 66, fill: '#2b1646', ground: 300 })}<rect x="0" y="250" width="${W}" height="50" fill="#1d0f33"/>${placeTrain(id, 122, { night: true })}`,
+    };
+  },
+
+  // Graphic Design: posters on easels in the morning, a row of paint pots, a pencil.
+  design(id) {
+    const p = pen(331);
+    const checks = (x, y, w, h) => { let c = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff"/>`; const q = w / 6; for (let r = 0; r < Math.round(h / q); r++) for (let k = 0; k < 6; k++) if ((r + k) % 2 === 0) c += `<rect x="${n(x + k * q)}" y="${n(y + r * q)}" width="${n(q)}" height="${n(q)}" fill="#1b1b21"/>`; return c; };
+    const easel = (x, y, w, h, rot, art) => `<g transform="rotate(${rot} ${x + w / 2} ${y + h})"><path d="M${x + w * 0.2} ${y + h}L${x + w * 0.1} ${y + h + 40}M${x + w * 0.8} ${y + h}L${x + w * 0.9} ${y + h + 40}" stroke="#a9744f" stroke-width="3.4" stroke-linecap="round"/><rect x="${x + 2}" y="${y + 3}" width="${w}" height="${h}" fill="#4a1d4a" opacity=".22"/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fffaf2"/>${art}</g>`;
+    const dots = ['#ff5c9d', '#ffb74d', '#ffe066', '#6fd6a8', '#5aa9ff', '#a78bfa'].map((c, i) => `<g transform="translate(${34 + i * 24} 214)"><rect x="-8" y="-2" width="16" height="12" rx="3" fill="#fff" opacity=".9"/><ellipse cx="0" cy="-2" rx="8" ry="3.4" fill="${c}"/></g>`).join('');
+    return {
+      defs: `${lin(`${id}-sky`, [[0, '#ffc9d9'], [0.55, '#ffd9b8'], [1, '#fff0cf']])}${rad(`${id}-glow`, [[0, '#fff', 0.9], [0.4, '#fff3d0', 0.4], [1, '#fff3d0', 0]])}`,
+      art: `<rect width="${W}" height="${H}" fill="url(#${id}-sky)"/>${glowDisc(id, 330, 60, 22, '#fff6dc', 2.8)}${cloud(40, 44, 1.1, '#fff')}${cloud(250, 30, 0.8, '#fff', 0.8)}
+<path d="${hills(p, { y: 188, amp: 12, bottom: 240 })}" fill="#f5b8c8"/>
+${easel(40, 70, 96, 122, -4, `${checks(8, 8, 80, 52)}<rect x="8" y="68" width="80" height="9" fill="#e53950"/><rect x="8" y="84" width="54" height="5" fill="#1b1b21" opacity=".8"/><rect x="8" y="96" width="36" height="5" fill="#1b1b21" opacity=".4"/>`)}
+${easel(152, 52, 100, 138, 2, `<rect width="100" height="138" fill="#ffe8a8"/><circle cx="50" cy="54" r="30" fill="#ff5c9d"/><path d="M14 124L50 70L86 124Z" fill="#7c4dff" opacity=".9"/><rect x="14" y="14" width="72" height="8" rx="4" fill="#1b1b21" opacity=".75"/>`)}
+${easel(270, 80, 92, 112, 5, `<rect width="92" height="112" fill="#2c2a6b"/><circle cx="46" cy="40" r="22" fill="#ffd27a"/><rect y="70" width="92" height="42" fill="#18b8a0"/><path d="M0 84Q23 66 46 84T92 80V112H0Z" fill="#0f8a78"/>`)}
+${dots}<g transform="rotate(-28 360 214)"><rect x="318" y="208" width="84" height="10" rx="2" fill="#ffd54d"/><path d="M402 208l12 5-12 5Z" fill="#f2c9a0"/><path d="M410 211l4 2-4 2Z" fill="#3b2a2a"/><rect x="318" y="208" width="10" height="10" fill="#ff7aa8"/></g>
+${deck(236, '#c47a9e')}${pylons(236, { every: 66, fill: '#b36489', ground: 300 })}<rect x="0" y="250" width="${W}" height="50" fill="#a65479"/>${placeTrain(id, 122)}`,
+    };
+  },
+
+  // Research: a lab by moonlight: flasks, a chart, an atom, the train under a row of lamps.
+  research(id) {
+    const p = pen(353);
+    const flask = (x, y, k, liquid) => `<g transform="translate(${x} ${y}) scale(${k})"><path d="M-8 -46H8V-24L30 14Q36 26 24 28H-24Q-36 26 -30 14L-8 -24Z" fill="#dff7f4" opacity=".24" stroke="#c7f1ec" stroke-width="1.6"/><path d="M-21 6L-30 14Q-36 26 -24 28H24Q36 26 30 14L21 6Z" fill="${liquid}" opacity=".92"/><circle cx="-6" cy="0" r="2.2" fill="#fff" opacity=".8"/><circle cx="6" cy="-6" r="1.6" fill="#fff" opacity=".7"/><rect x="-10" y="-50" width="20" height="5" rx="2" fill="#c7f1ec" opacity=".6"/></g>`;
+    const bars = [30, 52, 40, 74, 92].map((h, i) => `<rect x="${14 + i * 20}" y="${100 - h}" width="13" height="${h}" rx="2.4" fill="${['#ff7aa8', '#ffd27a', '#8fe0b4', '#7fc4ff', '#c4a6ff'][i]}"/>`).join('');
+    const atom = `<g transform="translate(330 90)" fill="none" stroke="#9fe6dc" stroke-width="2"><ellipse rx="34" ry="13"/><ellipse rx="34" ry="13" transform="rotate(60)"/><ellipse rx="34" ry="13" transform="rotate(-60)"/><circle r="6" fill="#ff7aa8" stroke="none"/><circle cx="34" r="3.4" fill="#fff" stroke="none"/><circle cx="-17" cy="-11" r="3.4" fill="#fff" stroke="none" transform="rotate(0)"/></g>`;
+    return {
+      night: true,
+      defs: `${lin(`${id}-sky`, [[0, '#082a36'], [0.55, '#14566a'], [1, '#3f9a98']])}${rad(`${id}-glow`, [[0, '#e8fff8', 0.85], [0.35, '#bff3e6', 0.3], [1, '#bff3e6', 0]])}`,
+      art: `<rect width="${W}" height="${H}" fill="url(#${id}-sky)"/>${stars(p, 30, { bottom: 130 })}${glowDisc(id, 92, 52, 16, '#f4fff9', 3)}
+<path d="${hills(p, { y: 196, amp: 14, bottom: 240 })}" fill="#0d3f4e"/>
+<g transform="translate(186 54)"><rect x="-4" y="-4" width="122" height="112" rx="8" fill="#082a36" opacity=".4"/><rect width="122" height="106" rx="8" fill="#f2fbfa"/><rect x="10" y="12" width="48" height="6" rx="3" fill="#14566a" opacity=".75"/>${bars}</g>
+${atom}${flask(62, 178, 1.05, '#ff7aa8')}${flask(122, 184, 0.8, '#7fe0c4')}
+${deck(236, '#0b3541')}${pylons(236, { every: 66, fill: '#0b3541', ground: 300 })}<rect x="0" y="250" width="${W}" height="50" fill="#072631"/>${placeTrain(id, 122, { night: true })}`,
+    };
+  },
+
+  // Just for Fun: a bright day, mountains, and photographs pegged to a line.
+  fun(id) {
+    const p = pen(379);
+    const peg = (x, y, rot, a, b) => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-26" y="2" width="56" height="64" fill="#1a1530" opacity=".2"/><rect x="-28" y="0" width="56" height="66" fill="#fffdf8"/><rect x="-23" y="5" width="46" height="46" fill="${a}"/><circle cx="6" cy="22" r="8" fill="#fff6d6" opacity=".9"/><path d="M-23 51L-8 32L4 44L12 36L23 51Z" fill="${b}"/><rect x="-3" y="-8" width="6" height="14" rx="1.6" fill="#c9a77c"/></g>`;
+    return {
+      defs: `${lin(`${id}-sky`, [[0, '#7cc6ff'], [0.6, '#bfe3ff'], [1, '#fff1d0']])}${rad(`${id}-glow`, [[0, '#fff', 0.95], [0.4, '#fff6d6', 0.4], [1, '#fff6d6', 0]])}`,
+      art: `<rect width="${W}" height="${H}" fill="url(#${id}-sky)"/>${glowDisc(id, 318, 62, 20, '#fff8dc', 3)}${cloud(30, 120, 1, '#fff')}${cloud(236, 150, 0.8, '#fff', 0.85)}
+<path d="${ridge(p, { y: 168, amp: 46, x0: -10, x1: 410, y0: 196, y1: 150, bottom: 240 })}" fill="#8fb4d8"/><path d="${ridge(p, { y: 196, amp: 22, x0: -10, x1: 410, bottom: 240 })}" fill="#6a9a78"/>
+<path d="M-10 36Q200 82 410 30" stroke="#6b4b3a" stroke-width="1.6" fill="none"/>
+${peg(48, 52, -6, '#ffb38a', '#c4577a')}${peg(128, 64, 4, '#9fd2ff', '#6c86a8')}${peg(208, 62, -3, '#ffd6e7', '#7c4dff')}${peg(288, 56, 6, '#d2efe1', '#2f8f70')}${peg(362, 40, -4, '#fff0bd', '#e0883a')}
+${deck(236, '#4f7a62')}${pylons(236, { every: 66, fill: '#40684f', ground: 300 })}<rect x="0" y="250" width="${W}" height="50" fill="#37593f"/>${placeTrain(id, 122)}`,
+    };
+  },
+});
+
+/* Soft pastel backdrops for project covers (each project gets one, in turn): a sky, a sun or moon,
+   clouds, two rolling hills with a few round trees, and the train on its deck. */
+const CUTE = [
+  { sky: ['#ffc2dc', '#ffe3ec'], sun: '#fff4d6', a: '#f7a6c4', b: '#e98bb0', deck: '#c96c97' },
+  { sky: ['#c9b8f5', '#eadffc'], sun: '#fff1de', a: '#b8a1ee', b: '#9a82dc', deck: '#7a62bf' },
+  { sky: ['#a9e3c8', '#e0f6ec'], sun: '#fffbe0', a: '#7fcfa6', b: '#5fb98d', deck: '#3f9a73' },
+  { sky: ['#ffc7a0', '#ffe7cf'], sun: '#fff9e0', a: '#f7b184', b: '#ee976a', deck: '#c97a50' },
+  { sky: ['#a6d0f7', '#dcecfd'], sun: '#fffbe6', a: '#86b8ee', b: '#6a9fdc', deck: '#4d82bd' },
+  { sky: ['#ffe28a', '#fff3c4'], sun: '#fff', a: '#f2cf6a', b: '#e4b94a', deck: '#bf9632' },
+  { sky: ['#f6b3c0', '#fde0e6'], sun: '#fff6e8', a: '#ec94a8', b: '#dc7a92', deck: '#b95b74' },
+  { sky: ['#bcc8dc', '#e6ebf4'], sun: '#fff', a: '#9aabc6', b: '#7f92b3', deck: '#62769a' },
+];
+CUTE.forEach((c, i) => {
+  SCENES[`cute${i}`] = (id) => {
+    const p = pen(401 + i * 37);
+    const tree = (x, base, r, fill) => `<rect x="${x - 1.4}" y="${base - r * 1.2}" width="2.8" height="${r * 1.3}" fill="${fill}" opacity=".7"/><circle cx="${x}" cy="${base - r * 1.5}" r="${r}" fill="${fill}"/>`;
+    let trees = '';
+    for (let k = 0; k < 6; k++) trees += tree(p.R(10, 390), 232, p.R(6, 11), c.b);
+    return {
+      defs: `${lin(`${id}-sky`, [[0, c.sky[0]], [1, c.sky[1]]])}${rad(`${id}-glow`, [[0, '#fff', 0.9], [0.4, c.sun, 0.4], [1, c.sun, 0]])}`,
+      art: `<rect width="${W}" height="${H}" fill="url(#${id}-sky)"/>${glowDisc(id, 64 + (i % 3) * 120, 50 + (i % 2) * 14, 20, c.sun, 2.8)}${cloud(250 - (i % 3) * 90, 56, 1.1, '#fff')}${cloud(50 + (i % 4) * 70, 120, 0.8, '#fff', 0.8)}
+<path d="${hills(p, { y: 188, amp: 16, bottom: 240 })}" fill="${c.a}"/><path d="${hills(p, { y: 214, amp: 10, bottom: 240 })}" fill="${c.b}"/>${trees}
+${deck(236, c.deck)}${pylons(236, { every: 66, fill: c.deck, ground: 300 })}<rect x="0" y="250" width="${W}" height="50" fill="${c.deck}" opacity=".85"/>${placeTrain(id, 70 + (i % 4) * 36)}`,
+    };
+  };
+});
+
 /** The cover art for one collection, as inline SVG. */
 export function ticketArt(name) {
   const id = `tk-${name}`;
@@ -428,6 +531,8 @@ export function ticketArt(name) {
   return `<svg class="ticket__svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs>${trainDefs(id)}${scene.defs}</defs>${scene.art}</svg>`;
 }
 export const ticketNames = Object.keys(SCENES);
+/** How many soft backdrops there are for project covers. */
+export const CUTE_COUNT = CUTE.length;
 
 /** The small maglev on its own (the footer's "end of the line", the express), 172 × 28. */
 export function miniTrainSvg(name, opts = {}) {

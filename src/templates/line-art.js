@@ -76,20 +76,13 @@ export function bigTrain() {
   // edge, the panel seams and the reflections sliding along the metal (the sheen is three
   // train-lengths wide and repeats, so it can slide either way without running out; the outer
   // group is moved by the departure on scroll, the rect by the arrival animation)
-  g += `<g clip-path="url(#bt-clip)"><rect x="0" y="76" width="${TRAIN_W}" height="24" fill="url(#bt-glow)"/><rect x="0" y="84" width="${TRAIN_W}" height="16" fill="url(#bt-shade)"/><rect x="0" y="1" width="${TRAIN_W}" height="1.6" fill="#fff" opacity=".7"/><rect x="0" y="54.6" width="${TRAIN_W}" height=".9" fill="#000" opacity=".22"/><rect x="0" y="86" width="${TRAIN_W}" height=".8" fill="#fff" opacity=".1"/>`;
-  for (const c of cars) {
-    const end = c.lead ? c.x + 455 : c.x + c.L - 10;
-    for (let x = c.x + 58; x < end; x += 152) {
-      if (nearDoor(c, x)) continue;
-      g += `<path d="M${x} 4V20.5M${x} 51.5V95" stroke="#000" stroke-opacity=".16" stroke-width=".9"/><path d="M${x + 1} 4V20.5M${x + 1} 51.5V95" stroke="#fff" stroke-opacity=".12" stroke-width=".7"/>`;
-    }
-  }
+  g += `<g clip-path="url(#bt-clip)"><rect x="0" y="76" width="${TRAIN_W}" height="24" fill="url(#bt-glow)"/><rect x="0" y="84" width="${TRAIN_W}" height="16" fill="url(#bt-shade)"/><rect x="0" y="1" width="${TRAIN_W}" height="1.6" fill="#fff" opacity=".7"/>`;
   // the city's lights reflected along the upper body, and the nose shaded round
   g += `<rect x="0" y="3" width="${TRAIN_W}" height="54" fill="url(#bt-cityref)" opacity=".2"/>`;
   g += `<rect x="${L0 + 440}" y="0" width="310" height="100" fill="url(#bt-nose)"/><path d="M${L0 + 440} 1.5C${L0 + 560} 2 ${L0 + 650} 22 ${L0 + 704} 54" fill="none" stroke="#fff" stroke-width="2.4" opacity=".55" filter="url(#bt-blur)"/>`;
   g += `<g class="bt-sheen-depart"><rect class="bt-sheen" x="${-TRAIN_W}" y="0" width="${TRAIN_W * 3}" height="100" fill="url(#bt-sheen)"/></g></g>`;
   // the neon stripe: a soft halo, the tube, a bright core; and a fine line below it
-  g += `<g clip-path="url(#bt-clip)"><rect x="0" y="59.8" width="${TRAIN_W}" height="9" fill="#ff5c9d" opacity=".22"/><rect x="0" y="62" width="${TRAIN_W}" height="4.5" fill="#ff5c9d"/><rect x="0" y="62.6" width="${TRAIN_W}" height="1" fill="#ffd3e4" opacity=".85"/><rect x="0" y="71" width="${TRAIN_W}" height="1.1" fill="#ff5c9d" opacity=".5"/></g>`;
+  g += `<g clip-path="url(#bt-clip)"><rect x="0" y="59.8" width="${TRAIN_W}" height="9" fill="#ff5c9d" opacity=".22"/><rect x="0" y="62" width="${TRAIN_W}" height="4.5" fill="#ff5c9d"/><rect x="0" y="62.6" width="${TRAIN_W}" height="1" fill="#ffd3e4" opacity=".85"/></g>`;
   // the glass band: the lit cabin behind it, passengers and seat backs, mullions, a frame and
   // a few reflections
   for (const c of cars) {
@@ -105,8 +98,6 @@ export function bigTrain() {
       } else if (r < 0.62) people += `<rect x="${n1(x + p.R(4, 16))}" y="43" width="13" height="8" rx="3" opacity=".6"/>`;
     }
     g += `<g class="bt-lights"><rect x="${x1 + 10}" y="26" width="${x2 - x1 - 20}" height="2.2" rx="1.1" fill="#fff1df" opacity=".6"/><rect x="${x1 + 6}" y="33" width="${x2 - x1 - 12}" height="16" rx="7" fill="url(#bt-cabin)"/><g fill="#3a2a35" opacity=".55">${people}</g></g>`;
-    for (let x = x1 + 70; x < x2 - 20; x += 70) g += `<rect x="${x}" y="23" width="2.5" height="27" fill="#232228"/>`;
-    for (let x = x1 + 40; x < x2 - 40; x += 190) g += `<path d="M${x} 50L${x + 16} 23H${x + 30}L${x + 14} 50Z" fill="#fff" opacity=".07"/>`;
     g += `<rect x="${x1}" y="23" width="${x2 - x1}" height="27" rx="13.5" fill="none" stroke="#0d0d10" stroke-width="1.6"/><rect x="${x1 + 1.5}" y="24.5" width="${x2 - x1 - 3}" height="24" rx="12" fill="none" stroke="#fff" stroke-opacity=".12"/>`;
   }
   // the doors: a lit doorway behind two panels that slide apart, a lamp above, handles
@@ -126,7 +117,6 @@ export function bigTrain() {
     const x = L0 + 466 + i * 22;
     g += `<path d="M${x + 12} 74h22l-12 16h-22z" fill="#ff5c9d" opacity="${o}"/>`;
   }
-  g += `<path d="M${L0 + 458} 3C${L0 + 470} 32 ${L0 + 470} 70 ${L0 + 458} 97" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1"/>`;
   g += `<path d="M${L0 + 470} 7C${L0 + 556} 9 ${L0 + 626} 30 ${L0 + 668} 58L${L0 + 646} 62C${L0 + 604} 40 ${L0 + 546} 26 ${L0 + 470} 24C${L0 + 459} 24 ${L0 + 459} 7 ${L0 + 470} 7Z" fill="url(#bt-glass)" stroke="#0b0b0f" stroke-width="1.4"/>`;
   g += `<path d="M${L0 + 520} 12C${L0 + 560} 15 ${L0 + 596} 26 ${L0 + 620} 38L${L0 + 606} 40C${L0 + 584} 30 ${L0 + 552} 21 ${L0 + 518} 18Z" fill="#fff" opacity=".12"/>`;
   g += `<path d="M${L0 + 606} 54.5L${L0 + 630} 46" stroke="#0a0a0d" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>`;

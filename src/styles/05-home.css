@@ -39,7 +39,7 @@
   background: url(/img/line/platform.svg) 0 0 / 100% 100% no-repeat, linear-gradient(180deg, #24242a 0, #1d1d21 35%, #17171a 100%);
 }
 /* the city's lights in the polished floor: the foot of the city, upside down, blurred, fading */
-.hero__platform::before, .phead__platform::before {
+.hero__platform::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -164,13 +164,24 @@
 }
 
 /* ── Picture + words ────────────────────────────────────────────────── */
-.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-.split--top { align-items: start; }
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 88px); align-items: stretch; }
 .split--flip { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
 .split--flip .split__media { order: 2; }
-.split__media img { width: 100%; border-radius: var(--radius); }
-.portrait { max-width: 440px; }
-.portrait img { aspect-ratio: 4 / 5; object-fit: cover; object-position: top; }
+.split__text { align-self: center; }
+/* the pictures fill the height of the words beside them, so the two columns line up top and bottom */
+.split__media { position: relative; min-height: clamp(360px, 36vw, 520px); }
+.split__media > img, .split__media--two { position: absolute; inset: 0; width: 100%; height: 100%; }
+.split__media > img { object-fit: cover; border-radius: var(--radius); }
+.split__media--two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.split__media--two > img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); min-height: 0; }
+.split__media--two > img:nth-child(2) { margin-top: clamp(20px, 3vw, 40px); height: calc(100% - clamp(20px, 3vw, 40px)); }
+.split__media--stack { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+.split__media--stack > img:nth-child(2) { margin-top: 0; height: 100%; }
+@media (max-width: 860px) { .split__media:has(.split__media--stack) { aspect-ratio: 5 / 6; } }
+.split--solo { align-items: start; }
+.split__media--solo { min-height: 0; position: sticky; top: calc(var(--head) + 88px); }
+.split__media--solo > img { position: static; height: auto; aspect-ratio: 4 / 5; }
+@media (max-width: 860px) { .split__media--solo { position: static; aspect-ratio: auto; } .split__media--solo > img { aspect-ratio: 4 / 3; } }
 .split__text .sec-title { margin-bottom: var(--sp-4); }
 .split__text > p:not([class]) { color: var(--fg-2); }
 .split__lede { margin-bottom: var(--sp-2); color: var(--fg) !important; font-size: var(--s-1); font-weight: 600; line-height: 1.4; }
@@ -178,7 +189,7 @@
 @media (max-width: 860px) {
   .split, .split--flip { grid-template-columns: 1fr; gap: var(--sp-5); }
   .split--flip .split__media { order: 0; }
-  .portrait { max-width: 360px; }
+  .split__media { min-height: 0; aspect-ratio: 4 / 3; }
 }
 
 /* A short ladder of results: level → result. */
@@ -229,18 +240,27 @@
   .honours--table .honour__level { grid-column: 2; padding-top: 0; }
 }
 
-/* ── Tesh Technology ────────────────────────────────────────────────── */
-.venture { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-.venture__text .sec-title { margin-bottom: 4px; }
-.venture__motto { color: var(--pink-text); font-size: var(--s-2); font-weight: 800; font-stretch: 112%; letter-spacing: -.01em; }
-.venture__lede { margin-top: var(--sp-3); max-width: 48ch; color: var(--fg-2); font-size: 1.1875rem; line-height: 1.55; }
-.venture__role { margin-top: var(--sp-2); color: var(--muted); font-weight: 600; }
-.venture__services { display: grid; gap: var(--sp-2); }
-.service { display: grid; gap: 2px; padding: 20px 22px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+/* ── Tesh Technology: a band of its own, bigger than the rest ────────── */
+.tesh { padding-block: calc(var(--section) * 1.2); background: var(--bg); color: var(--fg); }
+.tesh__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.tesh__title { font-size: var(--s-5); font-weight: 800; font-stretch: 108%; letter-spacing: -.035em; line-height: .98; }
+.tesh__motto { margin-top: var(--sp-2); color: var(--pink-text); font-size: var(--s-3); font-weight: 800; font-stretch: 110%; letter-spacing: -.02em; }
+.tesh__lede { margin-top: var(--sp-4); max-width: 46ch; color: var(--fg-2); font-size: 1.25rem; line-height: 1.55; }
+.tesh__role { margin-top: var(--sp-2); color: var(--muted); font-weight: 600; }
+.tesh__art { display: grid; grid-template-columns: minmax(0, 1fr) clamp(88px, 21%, 150px); gap: clamp(12px, 2vw, 24px); align-items: end; }
+.tesh__win { display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; border-radius: 16px; background: #fff; box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .08); }
+.tesh__win .cover__bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #f1eff5; }
+.tesh__win .cover__bar i { width: 11px; height: 11px; border-radius: 50%; background: #d9d4e2; }
+.tesh__win .cover__bar i:first-child { background: #ff9fc2; }
+.tesh__win > img, .tesh__phone img { display: block; width: 100%; height: auto; }
+.tesh__phone { display: block; overflow: hidden; border: 5px solid #0c0c0e; border-radius: 24px; box-shadow: 0 24px 40px -24px rgba(0, 0, 0, .8), 0 0 0 1px var(--line-2); }
+.tesh__services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); margin-top: clamp(40px, 5vw, 72px); }
+.service { display: grid; gap: 4px; padding: 24px 26px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
 .service__title { font-size: var(--s-1); font-weight: 800; }
-.service__text { color: var(--fg-2); }
+.service__text { color: var(--fg-2); font-size: 1.125rem; }
 @media (max-width: 860px) {
-  .venture { grid-template-columns: 1fr; }
+  .tesh__grid { grid-template-columns: 1fr; }
+  .tesh__services { grid-template-columns: 1fr; }
 }
 
 /* ── Photography ────────────────────────────────────────────────────── */

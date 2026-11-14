@@ -1,0 +1,42 @@
+/* ════════════════════════════════════════════════════════════════════
+   Covers: one calm picture on a soft colour for every project.
+   Drawn in container units so one design fits a card, a ticket and a
+   "related" panel. The whole screenshot or piece always shows.
+   ════════════════════════════════════════════════════════════════════ */
+.card__media, .related__media, .ticket__art--photo { position: relative; }
+.cover { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; container-type: size; background: var(--tint, #e9e4f0); }
+.cover img { display: block; }
+.cover--tint0 { --tint: #fbd3e3; } .cover--tint1 { --tint: #dcd0f7; } .cover--tint2 { --tint: #cdeedd; } .cover--tint3 { --tint: #fddcc3; }
+.cover--tint4 { --tint: #cfe3fa; } .cover--tint5 { --tint: #fdeeb0; } .cover--tint6 { --tint: #f9cfd8; } .cover--tint7 { --tint: #d8dfeb; }
+
+/* software: the whole screen, in a little browser window */
+.cover__win {
+  display: grid; grid-template-rows: 7cqh auto; overflow: hidden;
+  width: min(84cqw, calc(74cqh * var(--r, 1.6)));
+  border-radius: 2cqh; background: #fff;
+  box-shadow: 0 2cqh 5cqh -2cqh rgba(28, 24, 40, .4), 0 0 0 1px rgba(28, 24, 40, .08);
+}
+.cover__bar { display: flex; align-items: center; gap: 1.3cqh; padding: 0 2.2cqh; background: #f4f2f7; }
+.cover__bar i { width: 2cqh; height: 2cqh; border-radius: 50%; background: #d9d4e2; }
+.cover__bar i:first-child { background: #ff9fc2; }
+.cover__win > img { width: 100%; height: auto; aspect-ratio: var(--r, 1.6); object-fit: contain; background: #fff; }
+.cover__name {
+  display: grid; place-items: center; aspect-ratio: var(--r, 1.6); padding: 3cqh;
+  background: #fff; color: #2b2833; font-weight: 800; font-stretch: 108%; letter-spacing: -.02em;
+  font-size: clamp(1rem, 8cqh, 1.8rem); line-height: 1.1; text-align: center; text-wrap: balance;
+}
+
+/* a mark with no screens: the logo on a rounded tile */
+.cover__tile { display: grid; place-items: center; width: min(54cqh, 46cqw); aspect-ratio: 1; padding: 12%; border-radius: 12%; background: #fff; box-shadow: 0 2cqh 5cqh -2cqh rgba(28, 24, 40, .35); }
+.cover__tile img { width: 100%; height: 100%; object-fit: contain; }
+
+/* printed work and papers: one or two pieces, side by side at one height, each whole */
+.cover--sheets { display: flex; align-items: center; justify-content: center; gap: 3cqw; }
+.cover__sheet {
+  display: block; flex: none;
+  height: min(78cqh, calc(88cqw / var(--sum, 1)));
+  aspect-ratio: var(--r, 1);
+  overflow: hidden; border-radius: .8cqh; background: #fff;
+  box-shadow: 0 1.6cqh 3.6cqh -1.6cqh rgba(28, 24, 40, .45), 0 0 0 1px rgba(28, 24, 40, .08);
+}
+.cover__sheet img { width: 100%; height: 100%; object-fit: contain; }

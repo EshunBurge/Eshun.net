@@ -1,57 +1,48 @@
 // Contact, Links, the live-demo pages from the original site, and the 404 page.
 import { html, raw } from '../lib.js';
 import { layout } from '../layout.js';
-import { pageHead, arrow, platformOf } from '../partials.js';
-import { site, nav, channels, linkGroups, linksQuote } from '../../data/site.js';
-import { board } from '../partials.js';
+import { pageHead, pass, arrow, platformOf, city, board, countOf, categoryById } from '../partials.js';
+import { site, nav, channels, linkGroups } from '../../data/site.js';
 
 /* ── Contact ───────────────────────────────────────────────────────── */
 export function contact(ctx) {
   const body = html`
 ${pageHead(ctx, {
-    title: 'Contact',
-    intro: 'Collaborations, internships, competition teams, speaking, or just a question about something on this site. Every channel below reaches me directly.',
-    actions: html`<ul class="quick">
-      <li><span class="quick__k">Fastest route</span><span class="quick__v">Email</span></li>
-      <li><span class="quick__k">Based in</span><span class="quick__v">${site.region}</span></li>
-      <li><span class="quick__k">Open to</span><span class="quick__v">Collaborations, internships, teams and speaking</span></li>
-      <li><span class="quick__k">Replies</span><span class="quick__v">Usually within a day or two</span></li>
-    </ul>`,
-    station: true,
     platform: platformOf('contact'),
+    title: 'Contact',
+    intro: 'Have a question, an idea or a project? Send me a message, or email me directly.',
+    ticket: { scene: 'cute4', id: 'contact', name: 'Contact', count: 'Say hello', label: `Platform ${platformOf('contact')}` },
+    visit: 'contact',
   })}
-<section class="section section--tight" aria-label="Ways to reach me">
+<section class="section section--first" aria-label="Ways to reach me">
   <div class="wrap contact">
+    <aside class="contact__side" aria-labelledby="channels-title">
+      <h2 class="contact__h" id="channels-title">Email</h2>
+      <a class="contact__mail" data-email href="#f-name"><span data-email-text>Use the form</span> ${arrow()}</a>
+      <h2 class="contact__h">Find me online</h2>
+      <ul class="connect">
+        ${channels.filter((c) => c.href).map((c) => html`<li><a class="connect__a" href="${c.href}" target="_blank" rel="noopener me"><span>${c.label}</span><span class="connect__h">${c.handle} ${arrow('out')}</span></a></li>`)}
+      </ul>
+    </aside>
     <form class="form" action="${site.formAction}" method="POST" data-contact-form ${ctx.preview ? raw('data-preview') : ''} novalidate aria-labelledby="form-title">
-      <h2 class="sub-title" id="form-title">Send a message</h2>
-      <p class="form__lede">Fill this in and it lands in my inbox. I read everything and usually reply within a day or two.</p>
+      <h2 class="contact__h" id="form-title">Send me a message</h2>
       <input type="hidden" name="_subject" value="New message from eshun.net">
       <div class="form__hp" aria-hidden="true"><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
       <div class="form__row">
-        <div class="field"><label for="f-name">Your name <span class="req">(required)</span></label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
-        <div class="field"><label for="f-email">Your email <span class="req">(required)</span></label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
       </div>
-      <div class="field"><label for="f-subject">Subject</label><input id="f-subject" name="subject" type="text"></div>
-      <div class="field"><label for="f-msg">Message <span class="req">(required)</span></label><textarea id="f-msg" name="message" rows="7" required></textarea></div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" rows="7" required></textarea></div>
       <div class="form__send">
-        <button class="btn btn--pink" type="submit">Send message ${arrow()}</button>
+        <button class="btn btn--pink" type="submit">Send ${arrow()}</button>
         <p class="form__status" role="status" aria-live="polite" data-status></p>
       </div>
     </form>
-    <aside class="contact__side" aria-labelledby="channels-title">
-      <h2 class="sub-title" id="channels-title">Or pick a channel</h2>
-      <p class="contact__lede">Email is the one I check most.</p>
-      <ul class="connect">
-        <li><a class="connect__a" data-email href="#f-name"><span>Email</span><span class="connect__h" data-email-text>Use the form</span></a></li>
-        ${channels.filter((c) => c.href).map((c) => html`<li><a class="connect__a" href="${c.href}" target="_blank" rel="noopener me"><span>${c.label}</span><span class="connect__h">${c.handle} ${arrow('out')}</span></a></li>`)}
-      </ul>
-      <p class="contact__note">Student inquiries welcome. Working on a science fair project, a TSA or HOSA event, or a first website and want a second set of eyes? Say so in the subject line.</p>
-    </aside>
   </div>
 </section>`;
   return layout(ctx, {
     title: 'Contact',
-    description: 'Get in touch with Eshun Burge about collaborations, internships, competition teams and speaking.',
+    description: 'Get in touch with Eshun Burge.',
     current: 'contact',
     page: 'contact',
     footerCta: false,
@@ -60,23 +51,38 @@ ${pageHead(ctx, {
 }
 
 /* ── Links (kept: it is probably in a bio somewhere) ───────────────── */
+// Every place to find me, each group a row of tickets: where it goes, the handle, and an arrow.
 export function links(ctx) {
+  const total = linkGroups.reduce((n, g) => n + g.links.length, 0);
   const body = html`
-<section class="linkpage" aria-labelledby="links-title">
-  <div class="linkpage__in">
-    ${ctx.img('people/eshun-portrait-blazer', { alt: '', cls: 'linkpage__face', sizes: '120px', eager: true })}
-    <h1 class="linkpage__title" id="links-title">Eshun Burge</h1>
-    <p class="linkpage__quote">“${linksQuote}”</p>
-    ${linkGroups.map((g) => html`<section class="linkpage__group" aria-labelledby="lg-${g.title.toLowerCase()}">
-      <h2 class="linkpage__h" id="lg-${g.title.toLowerCase()}">${g.title}</h2>
-      <ul>${g.links.map((l) => {
+${pageHead(ctx, {
+    platform: platformOf('links'),
+    title: 'Links',
+    intro: 'Where to find me online.',
+    meta: `${total} places to find me`,
+    ticket: { scene: 'cute2', id: 'links', name: 'Eshun Burge', count: `${total} places to find me`, label: `Platform ${platformOf('links')}` },
+    visit: 'links',
+  })}
+<section class="section section--first" aria-label="All links">
+  <div class="wrap linkgroups">
+    ${linkGroups.map((g) => {
+      const id = `lg-${g.title.toLowerCase()}`;
+      return html`<section class="linkgroup" aria-labelledby="${id}">
+      <div class="linkgroup__head"><h2 class="linkgroup__title" id="${id}">${g.title}</h2><p class="linkgroup__count">${g.links.length} ${g.links.length === 1 ? 'link' : 'links'}</p></div>
+      <ul class="stubs">${g.links.map((l) => {
         const internal = l.href.startsWith('/');
-        return html`<li><a class="linkpage__a" href="${internal ? ctx.url(l.href) : l.href}"${internal ? '' : raw(' target="_blank" rel="noopener me"')}><span class="linkpage__l">${l.label}</span><span class="linkpage__hd">${l.handle}</span>${arrow(internal ? 'right' : 'out')}</a></li>`;
+        return html`<li><a class="stub" href="${internal ? ctx.url(l.href) : l.href}"${internal ? '' : raw(' target="_blank" rel="noopener me"')}>
+          <span class="stub__label${internal ? ' stub__label--here' : ''}">${internal ? 'You are here' : new URL(l.href).hostname.replace(/^www\./, '')}</span>
+          <span class="stub__to">${l.label}</span>
+          <span class="stub__handle">${l.handle}</span>
+          <span class="stub__go" aria-hidden="true">${arrow(internal ? 'right' : 'out')}</span>
+        </a></li>`;
       })}</ul>
-    </section>`)}
+    </section>`;
+    })}
   </div>
 </section>`;
-  return layout(ctx, { title: 'Links', description: 'Every place to find Eshun Burge online.', current: 'links', page: 'links', footerCta: false, body });
+  return layout(ctx, { title: 'Links', description: 'Every place to find Eshun Burge online.', current: 'links', page: 'links', body });
 }
 
 /* ── Live-demo pages (the original site's URLs, kept working) ───────── */
@@ -101,21 +107,32 @@ export function demo({ title, src, back, backLabel, allow = '' }) {
 }
 
 /* ── 404 ───────────────────────────────────────────────────────────── */
+/** What each stop on the line holds, for the departures board. */
+function whatsThere(id) {
+  const cat = categoryById[id];
+  if (cat) return countOf(cat);
+  const total = linkGroups.reduce((n, g) => n + g.links.length, 0);
+  return { home: 'Where the line starts', about: 'My story, experience and awards', links: `${total} places to find me`, contact: 'Send me a message' }[id] || '';
+}
+
 export function notFound(ctx) {
   return layout(ctx, {
     title: 'Page not found',
     page: 'notfound',
     noindex: true,
-    body: html`<section class="nf tone-dark" aria-labelledby="nf-title">
+    body: html`${pageHead(ctx, {
+      label: 'Error 404 · Not in service',
+      title: 'Wrong platform',
+      intro: 'This train doesn’t stop here. The page may have moved when the site was rebuilt. Every stop on the line is below.',
+      ticket: { scene: 'mystery', id: 'nf', name: 'Not in service', count: 'Every stop is below', label: 'Platform ?' },
+    })}
+    <section class="section section--first" aria-labelledby="dep-title">
       <div class="wrap">
-        <p class="board__label">Error 404 · Not in service</p>
-        <h1 class="board" id="nf-title" data-board>${board('Wrong platform')}</h1>
-        <p class="phead__intro">This train doesn’t stop here. The page may have moved when the site was rebuilt. Every stop on the line is below.</p>
+        <div class="sec-head"><h2 class="sec-title" id="dep-title">Departures</h2></div>
         <ol class="departures">
-          ${nav.map((n, i) => html`<li><a class="departures__a" href="${ctx.url(n.href)}"><span class="departures__to">${n.label}</span><span class="departures__plat">Platform ${i + 1}</span>${arrow()}</a></li>`)}
+          ${nav.map((n, i) => html`<li><a class="departures__a" href="${ctx.url(n.href)}"><span class="departures__plat">Platform ${i + 1}</span><span class="departures__to">${n.label}</span><span class="departures__what">${whatsThere(n.id)}</span>${arrow()}</a></li>`)}
         </ol>
       </div>
-      <div class="skyline skyline--nf" aria-hidden="true"></div>
     </section>`,
   });
 }

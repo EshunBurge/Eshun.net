@@ -1,8 +1,8 @@
 // About Me — the story, then the full record: experience, awards, skills, résumé and CV.
 import { html } from '../lib.js';
 import { layout } from '../layout.js';
-import { pageHead, secHead, categoryTiles, facts, arrow, platformOf } from '../partials.js';
-import { about, aspiration, education } from '../../data/about.js';
+import { pageHead, secHead, categoryTiles, facts, arrow, platformOf, figure } from '../partials.js';
+import { about, aspiration, education, moments, strips } from '../../data/about.js';
 import { organisations, roles, awards, tsaRecord, scienceFair, otherHonours, toolkit, tools } from '../../data/archive.js';
 import { channels } from '../../data/site.js';
 import { when } from '../dates.js';
@@ -13,10 +13,14 @@ const SECTIONS = [
   ['story', 'My story'],
   ['education', 'Education'],
   ['experience', 'Experience'],
+  ['moments', 'In pictures'],
   ['awards', 'Awards'],
   ['skills', 'Skills'],
   ['resume', 'Résumé & CV'],
 ];
+
+/** A strip of pictures of me between sections: opens in the viewer, nothing written under them. */
+const strip = (ctx, list, group) => html`<div class="moments moments--strip" style="--n:${list.length}">${list.map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, 380px', viewer: group, cls: 'moment' }))}</div>`;
 
 export default function aboutPage(ctx) {
   const docs = ctx.site.documents;
@@ -30,16 +34,21 @@ export default function aboutPage(ctx) {
 
   const body = html`
 ${pageHead(ctx, {
+    platform: platformOf('about'),
     title: 'About me',
     intro: about.standfirst,
-    actions: html`<nav class="onpage" aria-label="On this page"><ul>${SECTIONS.map(([id, label]) => html`<li><a class="chip" href="#${id}">${label}</a></li>`)}</ul></nav>`,
-    station: true,
-    platform: platformOf('about'),
+    ticket: { scene: 'cute1', id: 'about', name: 'Eshun Burge', count: 'About me', label: `Platform ${platformOf('about')}` },
+    visit: 'about',
   })}
+<nav class="subnav" aria-label="On this page">
+  <div class="wrap"><ul class="subnav__list">${SECTIONS.map(([id, label]) => html`<li><a class="subnav__a" href="#${id}">${label}</a></li>`)}</ul></div>
+</nav>
 
-<section class="section section--tight" id="story" aria-labelledby="story-title">
-  <div class="wrap split split--top">
-    <figure class="split__media portrait">${ctx.img('people/eshun-portrait-blazer', { alt: 'Portrait of Eshun Burge in her Florida TSA officer blazer', sizes: '(max-width: 760px) 80vw, 34vw', priority: true })}</figure>
+<section class="section section--first" id="story" aria-labelledby="story-title">
+  <div class="wrap split split--solo">
+    <div class="split__media split__media--solo">
+      ${ctx.img('people/eshun-portrait-outdoor', { alt: 'Portrait of Eshun Burge outdoors, by a lake', sizes: '(max-width: 860px) 92vw, 34vw', priority: true, style: 'object-position:50% 30%' })}
+    </div>
     <div class="split__text">
       <h2 class="sec-title" id="story-title">Hi, I’m Eshun.</h2>
       <div class="prose">${about.paragraphs.map((p) => html`<p>${p}</p>`)}</div>
@@ -62,12 +71,14 @@ ${pageHead(ctx, {
       </div>
       <div class="school__courses">${education.courses.map((c) => html`<div><h3 class="records__h">${c.group}</h3><ul class="skills__list">${c.items.map((t) => html`<li>${t}</li>`)}</ul></div>`)}</div>
     </div>
+    ${strip(ctx, strips.education, 'edu')}
   </div>
 </section>
 
 <section class="section" id="experience" aria-labelledby="experience-title">
   <div class="wrap">
     ${secHead({ id: 'experience-title', title: 'Experience & leadership' })}
+    ${strip(ctx, strips.experience, 'exp')}
     <div class="orgs">
       ${byOrg.map(({ org, list }) => html`<section class="org" aria-labelledby="org-${org.id}">
         <div class="org__head"><h3 class="org__name" id="org-${org.id}">${org.name}</h3><p class="org__since">Since ${org.since}</p></div>
@@ -83,9 +94,17 @@ ${pageHead(ctx, {
   </div>
 </section>
 
-<section class="section section--alt" id="awards" aria-labelledby="awards-title">
+<section class="section section--alt" id="moments" aria-labelledby="moments-title">
+  <div class="wrap">
+    ${secHead({ id: 'moments-title', title: 'In pictures' })}
+    <div class="moments">${moments.map((m) => figure(ctx, m.key, { caption: m.caption, sizes: '(max-width: 760px) 92vw, (max-width: 1100px) 46vw, 380px', viewer: 'moments', cls: 'moment' }))}</div>
+  </div>
+</section>
+
+<section class="section" id="awards" aria-labelledby="awards-title">
   <div class="wrap">
     ${secHead({ id: 'awards-title', title: 'Awards' })}
+    ${strip(ctx, strips.awards, 'awd')}
     <ul class="honours honours--table">
       ${awards.map((a) => html`<li class="honour"><span class="honour__year">${a.year}</span><span class="honour__body"><span class="honour__title">${a.href ? html`<a href="${ctx.url(a.href)}">${a.title}</a>` : a.title}</span><span class="honour__org">${a.org}</span></span><span class="honour__level">${a.level}</span></li>`)}
     </ul>
@@ -114,7 +133,7 @@ ${pageHead(ctx, {
   </div>
 </section>
 
-<section class="section" id="skills" aria-labelledby="skills-title">
+<section class="section section--alt" id="skills" aria-labelledby="skills-title">
   <div class="wrap">
     ${secHead({ id: 'skills-title', title: 'Skills' })}
     <div class="kit">${tools.map((g) => html`<div class="kit__tools"><h3 class="records__h">${g.group}</h3><ul class="tools">${g.items.map((t) => html`<li>${t}</li>`)}</ul></div>`)}</div>
@@ -122,7 +141,7 @@ ${pageHead(ctx, {
   </div>
 </section>
 
-<section class="section section--alt" id="resume" aria-labelledby="resume-title">
+<section class="section" id="resume" aria-labelledby="resume-title">
   <div class="wrap resume">
     <div>
       ${secHead({ id: 'resume-title', title: 'Résumé & CV' })}

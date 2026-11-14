@@ -19,6 +19,23 @@ export const about = {
   ],
 };
 
+// Pictures of me, for the About page and the home page: TSA, science fairs and a few portraits.
+const pic = (key, caption) => ({ key, caption });
+export const moments = [
+  pic('people/eshun-podium-national', 'Speaking at the National TSA Conference.'),
+  pic('people/eshun-florida-sign', 'Carrying the Florida sign at the National TSA Conference.'),
+  pic('people/eshun-stage-wave', 'On stage with Florida TSA.'),
+  pic('people/eshun-national-poster', 'With my campaign poster for National TSA Secretary.'),
+  pic('people/eshun-florida-signs', 'Holding the Florida TSA signs.'),
+  pic('people/eshun-conference-selfie', 'At a TSA conference.'),
+];
+// Strips of pictures between the sections of the About page.
+export const strips = {
+  education: [pic('people/eshun-science-fair', 'Beside a research poster at a science fair.'), pic('people/eshun-ssef-ribbon', 'With the award ribbon at the State Science & Engineering Fair of Florida.')],
+  experience: [pic('people/eshun-florida-delegation', 'With the Florida delegation at the 2026 National TSA Conference.'), pic('people/eshun-state-officers', 'With my fellow Florida TSA state officers.'), pic('people/eshun-stage-pose', 'On stage with Florida TSA.')],
+  awards: [pic('people/eshun-research-poster', 'Presenting my research at the science-fair.'), pic('people/eshun-blazers-outdoors', 'In my TSA blazer.')],
+};
+
 // From the summary on Eshun's CV.
 export const aspiration =
   'As an aspiring engineer, I’m passionate about technology and STEM. I hope to one day build technology that makes a meaningful impact on the world.';

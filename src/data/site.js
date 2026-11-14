@@ -26,7 +26,7 @@ export const nav = [
   { id: 'home', label: 'Home', href: '/' },
   { id: 'software', label: 'Software Design', href: '/software-design/' },
   { id: 'design', label: 'Graphic Design', href: '/graphic-design/' },
-  { id: 'research', label: 'Science Projects', href: '/science-projects/' },
+  { id: 'research', label: 'Research', href: '/science-projects/' },
   { id: 'fun', label: 'Just for Fun', href: '/just-for-fun/' },
   { id: 'about', label: 'About Me', href: '/about/' },
   { id: 'links', label: 'Links', href: '/links/' },
@@ -52,16 +52,16 @@ export const categories = [
     filters: [['Branding package', 'Branding'], ['Event branding', 'Event branding'], ['Physical marketing', 'Print & campaign']],
   },
   {
-    id: 'research', label: 'Science Projects', href: '/science-projects/', discipline: 'research',
-    intro: 'Research and experiments I’ve conducted over the past few years, from machine-learning fairness studies to work at the lab bench.',
+    id: 'research', label: 'Research', href: '/science-projects/', discipline: 'research',
+    intro: 'Research and experiments I’ve conducted over the past few years, from machine-learning fairness studies to work at the lab bench, with the posters and papers.',
     short: 'Machine-learning fairness, health and the lab bench.',
-    cover: 'people/eshun-research-poster', focus: '50% 30%',
+    cover: 'research/ped-poster', focus: '50% 30%',
     filters: [],
   },
   {
     id: 'fun', label: 'Just for Fun', href: '/just-for-fun/', discipline: 'fun',
-    intro: 'The work with no deadline attached: photography from travel and competition, plus whatever else I felt like building.',
-    short: 'Photography from travel and competition, and a CAD model.',
+    intro: 'The work with no deadline attached: photography from travel and competition.',
+    short: 'Photography from travel and competition.',
     cover: 'photo/prague', focus: '50% 40%',
     filters: [],
   },
@@ -91,7 +91,6 @@ export const linkGroups = [
     links: [
       { label: 'Personal portfolio', handle: 'eshun.net', href: '/' },
       { label: 'GitHub', handle: '@EshunBurge', href: 'https://github.com/EshunBurge' },
-      { label: 'Hack Club Scrapbook', handle: 'Build log · /Eshun', href: 'https://scrapbook.hackclub.com/Eshun' },
       { label: 'LinkedIn', handle: '/in/eshunburge', href: 'https://www.linkedin.com/in/eshunburge' },
     ],
   },
@@ -114,4 +113,3 @@ export const linkGroups = [
   },
 ];
 
-export const linksQuote = 'everyone is different, that means anyone can fit in';

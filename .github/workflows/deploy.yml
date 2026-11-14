@@ -22,12 +22,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # zero dependencies: no npm install needed to build
       - name: Build
         run: |
           REPO="${GITHUB_REPOSITORY#*/}"
           if [[ "$REPO" == *.github.io ]]; then BASE=/; else BASE="/$REPO/"; fi
-          echo "BASE_PATH=$BASE" >> "$GITHUB_ENV"
-          node scripts/build.mjs --base="$BASE"
+          BASE_PATH="${{ vars.BASE_PATH }}"
+          echo "BASE_PATH=${BASE_PATH:-$BASE}" >> "$GITHUB_ENV"
+          node scripts/build.mjs --base="${BASE_PATH:-$BASE}"
       - name: Check links, anchors, alt text, headings
         run: node scripts/check.mjs
       - uses: actions/configure-pages@v5

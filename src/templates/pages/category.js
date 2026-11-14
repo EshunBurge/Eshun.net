@@ -1,5 +1,5 @@
 // The three project categories from the original menu: Software Design, Graphic Design and
-// Science Projects. Each lists its projects as cards (with filters when there are kinds to filter
+// Research. Each lists its projects as cards (with filters when there are kinds to filter
 // by), then what goes with that kind of work: the awards it has won, the tools, and for research
 // the questions behind it and the science-fair record.
 import { html } from '../lib.js';
@@ -30,14 +30,12 @@ const EXTRAS = {
   },
   design: (ctx) => {
     const won = awards.filter((a) => /Promotional Design/.test(a.title));
-    const racing = roles.find((r) => r.org === 'racing');
     const design = tools.find((g) => g.group === 'Design').items;
     return html`<section class="section section--alt" aria-labelledby="rec-title">
   <div class="wrap">
     ${secHead({ id: 'rec-title', title: 'Awards' })}
     <ul class="honours honours--table">
       ${won.map(honour(ctx))}
-      ${honour(ctx)({ year: '2024–25', title: 'Florida State Championship, with the team', org: `STEM Racing · ${racing.title}`, level: 'State' })}
     </ul>
     <h3 class="sub-title">Tools</h3>
     ${toolList(design)}
@@ -71,8 +69,15 @@ export default function category(id) {
   return (ctx) => {
     const n = list.length;
     const body = html`
-${pageHead(ctx, { title: cat.label, intro: cat.intro, meta: `${n} ${n === 1 ? 'project' : 'projects'}`, station: true, platform: platformOf(cat.id), visit: cat.id })}
-<section class="section section--tight" aria-labelledby="list-title">
+${pageHead(ctx, {
+    platform: platformOf(cat.id),
+    title: cat.label,
+    intro: cat.intro,
+    meta: `${n} ${n === 1 ? 'project' : 'projects'}`,
+    ticket: { scene: cat.id, id: cat.id, name: cat.label, count: `${n} ${n === 1 ? 'project' : 'projects'}`, label: `Platform ${platformOf(cat.id)}` },
+    visit: cat.id,
+  })}
+<section class="section section--first" aria-labelledby="list-title">
   <div class="wrap">
     <h2 class="visually-hidden" id="list-title">${cat.label} projects</h2>
     ${filters(list, cat)}

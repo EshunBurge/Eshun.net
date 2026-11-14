@@ -112,6 +112,10 @@ export const sets = [
   { id: 'other', name: 'Other', note: 'Portraits and everything else.' },
 ];
 
+/** The collections that have photographs, in their original order: the stops on the line. A
+ *  collection without photographs yet keeps its page (old links still work) but isn't listed. */
+export const openSets = sets.filter((s) => frames.some((f) => f.set === s.id));
+
 export const photoLinks = [
   { label: 'Prof-eshun-al Photography on Instagram', href: 'https://www.instagram.com/profeshunal.photography/' },
   { label: 'VSCO site', href: 'https://eshunburge.vsco.site/' },

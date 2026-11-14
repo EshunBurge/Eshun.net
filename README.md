@@ -8,16 +8,25 @@ home page's train, the closing band and the footer), pink kept for accents, one 
 (Archivo) at sizes you can read, one plain menu bar, and a big silver train that pulls into the
 home page under her name. Every section has a plain title and no line of subtext under it.
 
-The train runs through the whole site. It pulls in under the title of every main page, in front
-of a city at night that rises behind the words and along a lit guideway, with a "Now arriving · Platform N" sign on a split-flap
-digit above the title. The four kinds of work and the photo collections are rail tickets (the
-collections with a little poster of each destination, punched once you've visited); each
-collection's page opens with a split-flap board and its own ticket, and ends with the next stops
-as tickets. The home page's numbers sit on split-flap flaps, every project's facts are printed on a
-ticket, the About page draws each organisation's roles as stations on a route, a tiny train rides
-the menu bar as you scroll, and every page ends at "End of the line" in front of the city with a
-train that takes you back to the top. Every project page has the same parts: its facts, a big
-picture, Overview, Highlights, How I made it, What I learned, and a gallery.
+The train runs through the whole site. Every page below the home page opens the same way: a city
+at night behind a split-flap board with the page's title, a line or two, the way back, and a rail
+ticket with the page's picture ("Now arriving · Platform N" on the main pages). The four kinds of
+work and the photo collections are rail tickets too (the collections with a little poster of each
+destination, punched once you've visited), and every project and collection ends with the previous
+and next stops as tickets. Facts are printed on a boarding pass under the head, the home page's
+numbers sit on split-flap flaps, the About page draws each organisation's roles as stations on a
+route, and a tiny train rides the menu bar as you scroll. The footer ends with "Back to top".
+
+Every project page has the same parts, in the same order: the head, the boarding pass, the main
+picture (for software, the screen in a browser window with the phone in front), Overview,
+Highlights, How I made it, Results, What I learned, the pictures, and the next stops. A part with
+nothing to say is left out rather than marked "coming soon"; when a project's whole story is a
+sentence or two, it sits under the title.
+
+Spacing follows one rule: every band has the same space above and below its content, and two
+bands of the same colour in a row share one gap rather than doubling it. Pictures sit in rows that
+share one height, like a contact sheet: each picture's width follows its proportions, so a row
+runs edge to edge and its pictures line up top and bottom.
 
 | Menu             | URL                   | What's on it                                                                  |
 | ---------------- | --------------------- | ----------------------------------------------------------------------------- |
@@ -25,20 +34,21 @@ picture, Overview, Highlights, How I made it, What I learned, and a gallery.
 | Software Design  | `/software-design/`   | Every software project as a card (18), with filters (websites, software, apps), the awards for it and the languages and tools |
 | Graphic Design   | `/graphic-design/`    | Every design project, with filters (branding, event branding, print), the awards for it and the tools |
 | Science Projects | `/science-projects/`  | The research projects, the research she wants to do, and the science-fair record |
-| Just for Fun     | `/just-for-fun/`      | The nine photo collections as tickets (plus a mystery stop that deals a random photo), the CAD model, piano and swimming |
-| About Me         | `/about/`             | The story, education, every role, every award, skills, résumé and CV, where to connect |
-| Links            | `/links/`             | Every profile in one list (the page social bios point to)                     |
-| Contact          | `/contact/`           | Quick facts, a form that posts to the old site's Formspree endpoint, and every channel |
+| Just for Fun     | `/just-for-fun/`      | The photo collections as tickets (plus a mystery stop that deals a random photo), then the CAD model, piano and swimming |
+| About Me         | `/about/`             | A bar of section links that stays in view; the story, education, every role, pictures from conferences, every award, skills, résumé and CV |
+| Links            | `/links/`             | Every profile as a ticket stub, grouped Work, Creative and Social (the page social bios point to) |
+| Contact          | `/contact/`           | Quick facts on a boarding pass, a form that posts to the old site's Formspree endpoint, and every channel |
 
 Below the menu pages, as on the original site:
 
 - **A page per project** at its original URL (`/neuroassist/`, `/ecomatch/`, `/back-to-impact/`,
   `/pediatric-diabetes-ml/`, `/flip-cards/`, …), plus new pages for Aflare, GreenerPick, BlockSAT,
-  In Another Life (the Sunbeam Tampa hackathon winner) and the Ramble Ventures Marketing
-  Dashboard.
+  In Another Life (the Sunbeam Tampa hackathon winner), the Ramble Ventures Marketing Dashboard,
+  and the design work Spark an Impression, Monster Mayhem, the Tesh Technology identity and the
+  Southeast TSA, NSTEM and HOSA chapter graphics.
 - **A page per photo collection** (`/photography-france/` … `/photography-other/`), each opening
-  with a split-flap board, and the CAD model (`/space-cruiser/`, now a project page like the
-  rest). Collections without photos yet say so.
+  with a split-flap board, and the CAD model (`/space-cruiser/`, a project page like the rest). A
+  collection without photos yet isn't listed or numbered, but its page still answers its old URL.
 - **The three live-demo pages** at their original addresses (`/neruoassistdemo/`,
   `/ecomatchdemo/`, `/rambleventuresmarketingdemo/`).
 - **Redirects** for duplicate or retired WordPress URLs (`/photography/`, `/machine-learning/`,
@@ -46,8 +56,9 @@ Below the menu pages, as on the original site:
 
 Getting around: the menu bar is on every page (below 1100px wide a Menu button opens the same
 eight pages, and it works even without JavaScript); every page below the top level starts with a
-"← Section" link back up; project pages end with previous and next; and every page ends with big
-tiles for the other kinds of work.
+"← Section" link back up; projects and collections end with the previous and next stops; About Me
+has a bar of section links that marks where you are; the 404 page lists every page as a departures
+board; and every page ends with a way back to the top.
 
 ## Run it
 
@@ -90,17 +101,16 @@ src/
     line-art.js    the big train
     city.js        the city at night (img/line/city-*.svg, lights-*.svg) and the platform floor
     tickets.js     the ticket covers (a poster per destination) and the small train
-    partials.js    page heads, back links, cards, tiles, previous/next, figures, facts
+    partials.js    page heads, the boarding pass, tickets, cards, tiles, next stops, figures
     pages/*.js     home, category, project, just-for-fun, about, contact, links, demos, 404
     routes.js      every URL the build writes + redirects for old URLs
   styles/        ← numbered CSS partials, concatenated in order (01-tokens.css holds the colours)
   scripts/       ← browser JavaScript (native ES modules)
     main.js        the menu, filters, image viewer, email, demos; loads page modules on demand
-    core/line.js   the menu-bar train, the end of the line, the express, the night sky
-    core/sound.js  the express's horn and the rush of air (Web Audio, no sound files)
+    core/line.js   the menu-bar train, Back to top, the express, the night sky
     modules/       train.js (the train leaving as you scroll), city.js (the city's depth as you
                    scroll or move the mouse), board.js (split-flap), tickets.js (tilt and
-                   punched tickets), contact.js (the form)
+                   punched tickets), subnav.js (About's section bar), contact.js (the form)
 public/          ← copied as-is: the font, optimised images, favicons, docs/ (résumé and CV)
 assets-src/      ← original images (git-ignored); feed for `npm run images`
 scripts/         ← build, dev server, checks, image pipeline
@@ -113,16 +123,20 @@ scripts/         ← build, dev server, checks, image pipeline
   languages and tools are `tools` in `archive.js`.
 - **Add a project:** add an entry to `src/data/projects.js` with a `layout` (`software`,
   `research`, `design` or `fun`). Projects appear in the order they're listed.
-- **Fill in a project page:** every page has Overview, Highlights, How I made it and What I
-  learned. Their content is the project's `body`, `highlights`, `process` and `learned`; most of
-  the extra detail lives in the `DETAILS` list near the end of `projects.js`. A section with
-  nothing in it yet shows "coming soon" until it's filled in.
+- **Fill in a project page:** the sections are Overview, Highlights, How I made it, Results and
+  What I learned. Their content is the project's `body`, `highlights`, `process`, `recognition`
+  and `learned`; most of the extra detail lives in the `DETAILS` list near the end of
+  `projects.js`. A section with nothing in it is simply left out until it's filled in.
+- **Add a software project's links:** `links` on the project in `projects.js`, e.g.
+  `links: [{ label: 'Visit the live site', href: 'https://…' }, { label: 'Source on GitHub', href: gh('Repo') }]`.
+  The first one is the pink button in the page's head.
 - **Add photographs:** put the originals in `assets-src/photo/<collection>/`, run `npm run images`,
   then add them to `frames` in `src/data/photos.js` with the `set` (collection) they belong to.
   The collection page and its ticket fill themselves in, and the mystery ticket deals from every
   collection. EXIF and GPS data are stripped automatically. The collections are France,
   Switzerland, Italy, Austria, Czechia, Germany, Florida, Cars and Other (the old TSA collection,
-  whose URL redirects to `/photography-other/`).
+  whose URL redirects to `/photography-other/`). Florida has no photos yet, so it isn't listed;
+  its first photo puts it back on the line, numbered in order.
 - **Change what the home page shows:** the lists at the top of `src/templates/pages/home.js`
   pick the four featured projects, the current roles and the selected awards. The picture on
   each kind-of-work tile is its `cover` in `src/data/site.js`.
@@ -148,13 +162,13 @@ scripts/         ← build, dev server, checks, image pipeline
   reflected in the platform floor. The three layers drift apart as you scroll or move the mouse,
   so the city has depth. It's drawn at build time (`src/templates/city.js`): change a layer's
   colours, window grid, how its floors are lit or the height of the skyline in `LAYERS`. The
-  same city stands behind every main page's title and each collection's ticket, and a quieter
-  strip of it runs along the call to action, the 404 and the footer.
+  same city stands behind the title of every page below the home page, and a quieter strip of it
+  runs along the call to action.
 - Images open larger in a viewer (arrow keys, swipe, Esc). Filters on the category pages are
   buttons. The phone menu traps focus and closes with Esc.
-- Easter eggs: type “choo” (or the Konami code) on any page for an express; visit after 7 pm for stars over the city; tickets for the
-  collections you've visited get punched (remembered in your browser only); the console says
-  hello. Sound only ever plays after a key is pressed.
+- Easter eggs: type “choo” (or the Konami code) on any page for an express; visit after 7 pm for
+  stars over the city; tickets for the pages you've visited get punched (remembered in your
+  browser only); the console says hello. The site makes no sound.
 - With `prefers-reduced-motion` nothing moves. Nothing waits to be scrolled into view: every page
   is complete as soon as it loads. Without JavaScript every page still reads in full, the Menu
   button still opens the menu, and the filters and the demo "Load" button simply don't appear.

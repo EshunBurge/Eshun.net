@@ -1,12 +1,15 @@
 // The train that runs through every page: the little one riding the menu bar as you scroll, the
-// one waiting at the end of the line, the express you can call with a word, the night sky after
-// dark, and a hello in the console.
+// ride back to the top, the express you can call with a word (silent: the site makes no sound),
+// the night sky after dark, and a hello in the console.
 import { $, reducedMotion, rafThrottle } from './util.js';
-import { horn, whoosh } from './sound.js';
 
 /* ── The menu bar's rail: a tiny train shows how far down the page you are ── */
 export function initRail() {
   const rail = $('.hdr__rail');
+  const hdr = $('.hdr');
+  // once the page has moved, the bar floats over it as glass (see 03-shell.css)
+  const stick = rafThrottle(() => hdr?.classList.toggle('is-stuck', scrollY > 24));
+  if (hdr) { addEventListener('scroll', stick, { passive: true }); stick(); }
   if (!rail) return;
   const update = rafThrottle(() => {
     const max = document.documentElement.scrollHeight - innerHeight;
@@ -19,25 +22,13 @@ export function initRail() {
   update();
 }
 
-/* ── End of the line: a train pulls in when you reach the bottom, and takes you back up ── */
+/* ── Back to top (every page's footer): a smooth ride up, landing on the name ── */
 export function initEnd() {
-  const eol = $('[data-eol]');
-  if (!eol) return;
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) eol.classList.add('is-here'); }, { threshold: 0.6 });
-    io.observe(eol);
-  } else eol.classList.add('is-here');
-  const top = $('[data-top]', eol);
+  const top = $('[data-top]');
   top?.addEventListener('click', (e) => {
     e.preventDefault();
-    eol.classList.remove('is-here');
-    eol.classList.add('is-leaving');
-    const go = () => {
-      scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
-      $('.hdr__brand')?.focus({ preventScroll: true });
-      setTimeout(() => eol.classList.remove('is-leaving'), 1200);
-    };
-    if (reducedMotion()) go(); else setTimeout(go, 450);
+    scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    $('.hdr__brand')?.focus({ preventScroll: true });
   });
 }
 
@@ -57,14 +48,12 @@ let running = false;
 export function express() {
   if (running) return;
   running = true;
-  const tpl = $('.eol__train svg');
+  const tpl = $('[data-express-train]')?.content.querySelector('svg');
   const el = document.createElement('div');
   el.className = 'express';
   el.setAttribute('aria-hidden', 'true');
   el.innerHTML = `<div class="express__train">${tpl ? tpl.outerHTML : ''}</div><p class="express__note">All aboard!</p>`;
   document.body.appendChild(el);
-  horn();
-  if (!reducedMotion()) setTimeout(() => whoosh(1.4), 250);
   setTimeout(() => { el.remove(); running = false; }, reducedMotion() ? 2200 : 2600);
 }
 

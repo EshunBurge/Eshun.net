@@ -82,7 +82,7 @@ export const roles = [
   },
   {
     org: 'nstem', title: 'Conrad Challenge Competitor', start: [2025, 8], end: null, kind: 'research',
-    text: 'Designed and developed Instabetes, our Conrad Challenge entry — a solar-powered diabetes care kit for underserved communities.',
+    text: 'Designed and developed our Conrad Challenge entry — a solar-powered diabetes care kit for underserved communities.',
     notes: ['Conrad Challenge Innovator Award'],
   },
   {
@@ -140,7 +140,7 @@ export const nationals = [
 export const awards = [
   { year: 2026, title: 'Office of Naval Research Science Award', org: 'Regional Science & Engineering Fair', level: 'Regional', href: '/pediatric-diabetes-ml/' },
   { year: 2026, title: 'Recognition Award', org: 'State Science & Engineering Fair of Florida', level: 'State', href: '/pediatric-diabetes-ml/' },
-  { year: 2026, title: 'Conrad Challenge Innovator Award', org: 'Conrad Challenge — Instabetes', level: 'National' },
+  { year: 2026, title: 'Conrad Challenge Innovator Award', org: 'Conrad Challenge', level: 'National' },
   { year: 2026, title: '1st Place, Sunbeam Tampa Hackathon', org: 'Hack Club — In Another Life', level: 'Hackathon', href: '/in-another-life/' },
   { year: 2026, title: '1st Place, Promotional Design', org: 'Technology Student Association', level: 'State' },
   { year: 2026, title: '1st Place, Promotional Design', org: 'Technology Student Association', level: 'Regional' },
