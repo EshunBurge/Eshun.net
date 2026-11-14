@@ -398,6 +398,23 @@ ol.org__roles { position: relative; padding-left: 38px; }
 .bhead__actions { margin-top: var(--sp-5); }
 .bhead__btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .bhead__ticket .ticket { --hole: #1c1c20; transform: rotate(3deg); filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .45)) drop-shadow(0 2px 3px rgba(0, 0, 0, .3)); }
+/* in a row or a grid of tickets the colours go round in turn, so neighbours never match */
+.tickets > li:nth-child(8n+1) .ticket__art--photo { background: #fbd3e3; }
+.tickets > li:nth-child(8n+1) .cover { --tint: #fbd3e3; }
+.tickets > li:nth-child(8n+2) .ticket__art--photo { background: #cfe3fa; }
+.tickets > li:nth-child(8n+2) .cover { --tint: #cfe3fa; }
+.tickets > li:nth-child(8n+3) .ticket__art--photo { background: #fdeeb0; }
+.tickets > li:nth-child(8n+3) .cover { --tint: #fdeeb0; }
+.tickets > li:nth-child(8n+4) .ticket__art--photo { background: #cdeedd; }
+.tickets > li:nth-child(8n+4) .cover { --tint: #cdeedd; }
+.tickets > li:nth-child(8n+5) .ticket__art--photo { background: #dcd0f7; }
+.tickets > li:nth-child(8n+5) .cover { --tint: #dcd0f7; }
+.tickets > li:nth-child(8n+6) .ticket__art--photo { background: #fddcc3; }
+.tickets > li:nth-child(8n+6) .cover { --tint: #fddcc3; }
+.tickets > li:nth-child(8n+7) .ticket__art--photo { background: #d8dfeb; }
+.tickets > li:nth-child(8n+7) .cover { --tint: #d8dfeb; }
+.tickets > li:nth-child(8n+8) .ticket__art--photo { background: #c9ecec; }
+.tickets > li:nth-child(8n+8) .cover { --tint: #c9ecec; }
 .mystery-q { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: clamp(5rem, 14vw, 8rem); font-weight: 800; font-stretch: 112%; text-shadow: 0 6px 0 rgba(24, 24, 27, .16); }
 .mystery-q--word { font-size: clamp(3.5rem, 9vw, 5.5rem); }
 .bhead__ticket .ticket__art:not(.ticket__art--photo) { background: #2a2a31; }
