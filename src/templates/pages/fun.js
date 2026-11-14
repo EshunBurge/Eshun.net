@@ -35,11 +35,11 @@ export const setArt = (ctx, s) => (framesIn(s)[0] ? ctx.img(framesIn(s)[0].key, 
 /** Every collection as a ticket, plus the mystery stop: a photograph from anywhere on the line,
  *  picked at random each time it's opened (without JavaScript it opens the first one). */
 export function collectionTickets(ctx, list = setsShown(), { mystery = true } = {}) {
-  const items = list.map((s) => ticket(ctx, { href: ctx.url(setHref(s)), scene: s.id, img: setArt(ctx, s), name: s.name, count: countLine(framesIn(s).length), label: stopOf(s) }));
+  const items = list.map((s) => ticket(ctx, { href: ctx.url(setHref(s)), scene: s.id, id: s.id, img: setArt(ctx, s), name: s.name, count: countLine(framesIn(s).length), label: stopOf(s) }));
   const pool = frames.filter((f) => sets.some((s) => s.id === f.set));
   if (mystery && pool.length) {
     const deck = pool.map((f) => [ctx.src(f.key, 2400), captionOf(f)]);
-    items.push(ticket(ctx, { href: deck[0][0], scene: 'mystery', id: 'mystery', name: 'Mystery stop', count: 'A photo at random', label: 'Stop ?', viewer: 'mystery', title: deck[0][1], deck: JSON.stringify(deck) }));
+    items.push(ticket(ctx, { href: deck[0][0], scene: 'mystery', id: 'mystery', img: raw('<span class="mystery-q" aria-hidden="true">?</span>'), name: 'Mystery stop', count: 'A photo at random', label: 'Stop ?', viewer: 'mystery', title: deck[0][1], deck: JSON.stringify(deck) }));
   }
   return html`<ul class="tickets">${items.map((t) => html`<li>${t}</li>`)}</ul>`;
 }
@@ -119,7 +119,7 @@ ${pageHead(ctx, {
     ${fs.length
       ? html`<div class="photos photos--set">${fs.map((f) => photo(ctx, f, s.id, '(max-width: 560px) 92vw, (max-width: 960px) 46vw, 31vw'))}</div>`
       : html`<div class="soon"><p class="soon__text">Photos from this collection are coming soon. In the meantime, more of my photography is on Instagram and VSCO.</p>${followLinks(ctx)}</div>`}
-    ${nextStops(ctx, setsShown().map((x) => ({ href: setHref(x), img: setArt(ctx, x), scene: x.id, id: x.id, name: x.name, count: countLine(framesIn(x).length), start: stopOf(x) })), setHref(s), { href: `${cat.href}#collections`, scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}
+    ${nextStops(ctx, setsShown().map((x) => ({ href: setHref(x), img: setArt(ctx, x), scene: x.id, id: x.id, name: x.name, count: countLine(framesIn(x).length), start: stopOf(x) })), setHref(s), { href: `${cat.href}#collections`, scene: 'line', id: 'all', img: raw('<span class="mystery-q mystery-q--word" aria-hidden="true">All</span>'), name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}
   </div>
 </section>`;
 

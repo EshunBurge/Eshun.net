@@ -167,7 +167,7 @@ ${categoryTiles(ctx, { heading: 'My work', id: 'work' })}
     ${secHead({ id: 'lens-title', title: 'Photography', link: { href: '/just-for-fun/', label: 'Just for Fun' }, ctx })}
     <ul class="tickets tickets--4">
       ${stops.map((st) => html`<li>${ticket(ctx, { href: ctx.url(setHref(st)), scene: st.id, img: setArt(ctx, st), name: st.name, count: `${framesIn(st).length} ${framesIn(st).length === 1 ? 'photo' : 'photos'}`, label: stopOf(st) })}</li>`)}
-      <li>${ticket(ctx, { href: ctx.url('/just-for-fun/#collections'), scene: 'line', id: 'all', name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}</li>
+      <li>${ticket(ctx, { href: ctx.url('/just-for-fun/#collections'), scene: 'line', id: 'all', img: raw('<span class="mystery-q mystery-q--word" aria-hidden="true">All</span>'), name: 'Every stop', count: `All ${openSets.length} collections`, label: 'All stops' })}</li>
     </ul>
     <p class="lens__links">${btn(ctx, { href: photoLinks[0].href, label: 'Instagram' })} ${btn(ctx, { href: photoLinks[1].href, label: 'VSCO' })}</p>
   </div>

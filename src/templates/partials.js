@@ -109,7 +109,9 @@ export function nextStops(ctx, items, href, all, { title = 'Next stops', id = 's
  *  where it's for, a line about it and a punch that's made once you've been there. A link by
  *  default; `tag: 'div'` makes a still one (the ticket at the top of a collection's own page). */
 export function ticket(ctx, { href = '', scene = '', img = null, name, count, label = '', viewer = '', title = '', id = '', deck = '', tag = 'a', here = false }) {
-  const art = img ? html`<span class="ticket__art ticket__art--photo">${img}</span>` : html`<span class="ticket__art">${raw(ticketArt(scene))}</span>`;
+  const TINTS = { france: 4, switzerland: 2, italy: 3, austria: 1, czechia: 5, germany: 0, florida: 6, cars: 7, other: 0, fun: 3, mystery: 6, all: 2, about: 1, tesh: 5, software: 4, design: 0, research: 6 };
+  const tint = TINTS[id] ?? [...String(id || name)].reduce((n, ch) => (n * 5 + ch.charCodeAt(0)) % 8, 0);
+  const art = img ? html`<span class="ticket__art ticket__art--photo ticket__art--tint${tint}">${img}</span>` : html`<span class="ticket__art">${raw(ticketArt(scene))}</span>`;
   const stub = html`<span class="ticket__stub">
       ${label ? html`<span class="ticket__plat" aria-hidden="true">${label}</span>` : ''}
       <span class="ticket__to">${name}</span>

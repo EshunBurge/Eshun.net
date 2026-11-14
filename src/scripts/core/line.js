@@ -6,10 +6,6 @@ import { $, reducedMotion, rafThrottle } from './util.js';
 /* ── The menu bar's rail: a tiny train shows how far down the page you are ── */
 export function initRail() {
   const rail = $('.hdr__rail');
-  const hdr = $('.hdr');
-  // once the page has moved, the bar floats over it as glass (see 03-shell.css)
-  const stick = rafThrottle(() => hdr?.classList.toggle('is-stuck', scrollY > 24));
-  if (hdr) { addEventListener('scroll', stick, { passive: true }); stick(); }
   if (!rail) return;
   const update = rafThrottle(() => {
     const max = document.documentElement.scrollHeight - innerHeight;

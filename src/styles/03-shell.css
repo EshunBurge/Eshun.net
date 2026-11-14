@@ -1,18 +1,12 @@
-/* ── Header: a slim black bar that stays put ─────────────────────────────
-   At the top of a page it melts into the night sky of the page head; once you scroll on to the light
-   page it is a solid black bar with a soft shadow, so the menu always reads. */
+/* ── Header: the original menu, in one charcoal bar ─────────────────── */
 .hdr {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #1c1c21;
-  color: var(--fg);
-  border-bottom: 1px solid transparent;
-  transition: background-color .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
-.hdr.is-stuck { background: #0b0b0e; border-bottom-color: rgba(255, 255, 255, .1); box-shadow: 0 10px 26px -14px rgba(0, 0, 0, .65); }
 .hdr__in {
-  position: relative;
   max-width: calc(var(--maxw) + 2 * var(--gut));
   height: var(--head);
   margin-inline: auto;
