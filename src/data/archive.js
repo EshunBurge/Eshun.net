@@ -138,6 +138,7 @@ export const nationals = [
 
 // Highlights (the old "Awards" list). level: National | State | Regional | School
 export const awards = [
+  { year: 2026, title: 'Sunshine State STEM Scholar Nominee', org: 'Florida', level: 'State' },
   { year: 2026, title: 'Office of Naval Research Science Award', org: 'Regional Science & Engineering Fair', level: 'Regional', href: '/pediatric-diabetes-ml/' },
   { year: 2026, title: 'Recognition Award', org: 'State Science & Engineering Fair of Florida', level: 'State', href: '/pediatric-diabetes-ml/' },
   { year: 2026, title: 'Conrad Challenge Innovator Award', org: 'Conrad Challenge', level: 'National' },
